@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { generateContentFromGemini } from "../utils/gemini";
+import { generateFromGemini } from "../utils/gemini";
 
 const IdeaGenerator = () => {
     const [input, setInput] = useState({
@@ -29,7 +29,7 @@ const IdeaGenerator = () => {
         setError("");
 
         try {
-            const result = await generateContentFromGemini(
+            const result = await generateFromGemini(
                 `Generate an innovative hackathon project idea with:
                 Theme: ${input.theme}
                 Tech Stack: ${input.techStack}

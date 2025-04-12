@@ -1,6 +1,35 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFirebase } from '../context/firebase';
 
 const Login = () => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const { loginWithEmailAndPassword } = useFirebase();
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        
+        try {
+            await loginWithEmailAndPassword(formData.email, formData.password);
+            navigate('/ideaGenerator');
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
@@ -15,7 +44,14 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
-                <form className="mt-8 space-y-6">
+                
+                {error && (
+                    <div className="bg-red-500/10 border border-red-500 text-red-500 rounded-lg p-3 text-sm">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                     <div className="rounded-md shadow-sm space-y-4">
                         <div>
                             <label htmlFor="email" className="sr-only">Email address</label>
@@ -23,6 +59,8 @@ const Login = () => {
                                 id="email"
                                 name="email"
                                 type="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 required
                                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Email address"
@@ -34,6 +72,8 @@ const Login = () => {
                                 id="password"
                                 name="password"
                                 type="password"
+                                value={formData.password}
+                                onChange={handleChange}
                                 required
                                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Password"

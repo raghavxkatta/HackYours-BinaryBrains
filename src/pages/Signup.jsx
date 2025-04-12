@@ -1,6 +1,48 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFirebase } from '../context/firebase';
 
 const Signup = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const { signupUserWithEmailAndPassword, putData } = useFirebase();
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+        setError('');
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        try {
+            const userCredential = await signupUserWithEmailAndPassword(formData.email, formData.password);
+            await putData(`users/${userCredential.user.uid}`, {
+                name: formData.name,
+                email: formData.email,
+                createdAt: new Date().toISOString()
+            });
+            navigate('/ideaGenerator');
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
@@ -15,7 +57,14 @@ const Signup = () => {
                         </Link>
                     </p>
                 </div>
-                <form className="mt-8 space-y-6">
+
+                {error && (
+                    <div className="bg-red-500/10 border border-red-500 text-red-500 rounded-lg p-3 text-sm">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                     <div className="rounded-md shadow-sm space-y-4">
                         <div>
                             <label htmlFor="name" className="sr-only">Full Name</label>
@@ -23,6 +72,8 @@ const Signup = () => {
                                 id="name"
                                 name="name"
                                 type="text"
+                                value={formData.name}
+                                onChange={handleChange}
                                 required
                                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Full Name"
@@ -34,6 +85,8 @@ const Signup = () => {
                                 id="email"
                                 name="email"
                                 type="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 required
                                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Email address"
@@ -45,17 +98,21 @@ const Signup = () => {
                                 id="password"
                                 name="password"
                                 type="password"
+                                value={formData.password}
+                                onChange={handleChange}
                                 required
                                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Password"
                             />
                         </div>
                         <div>
-                            <label htmlFor="confirm-password" className="sr-only">Confirm Password</label>
+                            <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
                             <input
-                                id="confirm-password"
-                                name="confirm-password"
+                                id="confirmPassword"
+                                name="confirmPassword"
                                 type="password"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
                                 required
                                 className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Confirm Password"
