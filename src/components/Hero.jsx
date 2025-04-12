@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 // import { theme } from '../utils/theme';
-import ideaImage from '../assets/animation/Computer.png';
+import ideaImage from '../assets/Compute12.gif/Computer.gif'
 ;
 
 const Hero = () => {
@@ -30,7 +30,7 @@ const Hero = () => {
                     </div>
 
                     <div className="relative">
-                        <div className="absolute -inset-1 bg-[#01FF00]/20 rounded-xl blur-xl"></div>
+                        <div className="absolute -inset-1 rounded-xl blur-xl"></div>
                         <div className="relative">
                             <img
                                 src={ideaImage}
