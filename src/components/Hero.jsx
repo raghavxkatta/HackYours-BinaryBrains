@@ -12,7 +12,7 @@ const Hero = () => {
                         <h1 className="text-5xl lg:text-6xl font-bold">
                             <span className="text-white">Generate Your Next</span>
                             <span className="block text-[#01FF00] mt-2">
-                            Carrier Idea
+                                Hackathon Idea
                             </span>
                         </h1>
                         <p className="mt-6 text-lg text-white/80">
