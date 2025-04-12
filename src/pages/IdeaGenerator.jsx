@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { generateFromGemini } from "../utils/gemini";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 const IdeaGenerator = () => {
     const [input, setInput] = useState({
@@ -27,10 +29,14 @@ const IdeaGenerator = () => {
 
         setLoading(true);
         setError("");
+        setIdea("");
 
         try {
-            const result = await generateFromGemini(
-                `Generate an innovative hackathon project idea with:
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+
+
+            const prompt = `Generate an innovative hackathon project idea with:
                 Theme: ${input.theme}
                 Tech Stack: ${input.techStack}
                 Team Size: ${input.teamSize}
@@ -71,11 +77,23 @@ const IdeaGenerator = () => {
                 - [Challenge 2]
 
                 🌟 WINNING POTENTIAL
-                [Why this idea stands out in a hackathon]`
-            );
-            setIdea(result);
+                [Why this idea stands out in a hackathon]`;
+
+            const result = await model.generateContent({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                    temperature: 0.9,
+                    topK: 40,
+                    topP: 0.95,
+                    maxOutputTokens: 2048,
+                }
+            });
+
+            const response = await result.response;
+            setIdea(response.text());
         } catch (err) {
-            setError(err.message || "Failed to generate idea");
+            console.error("Gemini API Error:", err);
+            setError(err.message || "Failed to generate idea. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -171,13 +189,30 @@ const IdeaGenerator = () => {
                         {loading ? "Generating Your Project Idea..." : "Generate Project Idea 🚀"}
                     </button>
 
-                    {idea && (
+                    {loading && (
+                        <div className="mt-8 text-center">
+                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#01FF00] border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                            <p className="mt-2 text-[#01FF00]">Crafting your perfect hackathon idea...</p>
+                        </div>
+                    )}
+
+                    {idea && !loading && (
                         <div className="mt-8 p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg">
                             <h3 className="text-xl font-semibold mb-4 text-[#01FF00]">Your Generated Project Idea:</h3>
                             <div className="prose prose-invert max-w-none">
                                 <div className="whitespace-pre-wrap text-white">
                                     {idea}
                                 </div>
+                            </div>
+                            <div className="mt-4 flex justify-end">
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(idea);
+                                    }}
+                                    className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded hover:bg-[#01FF00]/10"
+                                >
+                                    Copy to Clipboard
+                                </button>
                             </div>
                         </div>
                     )}
