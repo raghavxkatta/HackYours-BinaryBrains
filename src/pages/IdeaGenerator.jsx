@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { generateFromGemini } from "../utils/generateFromGemini"; // ✅ Make sure file name matches
+import { generateContentFromGemini } from "../utils/gemini";
 
 const IdeaGenerator = () => {
     const [input, setInput] = useState({
@@ -7,6 +7,7 @@ const IdeaGenerator = () => {
         techStack: "",
         teamSize: "",
         difficulty: "Beginner",
+        duration: "24 Hours"
     });
 
     const [idea, setIdea] = useState("");
@@ -20,88 +21,144 @@ const IdeaGenerator = () => {
 
     const generateIdea = async () => {
         if (!input.theme || !input.techStack || !input.teamSize) {
-            setError("Please fill in all fields");
+            setError("Please fill in all required fields");
             return;
         }
 
         setLoading(true);
         setError("");
-        setIdea("");
-
-        const prompt = `
-Generate a unique, innovative hackathon project idea based on the following details:
-- Theme: ${input.theme}
-- Team Size: ${input.teamSize}
-- Tech Stack: ${input.techStack}
-- Difficulty: ${input.difficulty}
-
-The idea should include:
-1. Project Title
-2. Short Description
-3. Key Features
-4. Why it's innovative
-5. Timeline breakdown (if possible)
-Keep it fresh, realistic, and exciting for a hackathon.`;
 
         try {
-            const result = await generateFromGemini(prompt);
+            const result = await generateContentFromGemini(
+                `Generate an innovative hackathon project idea with:
+                Theme: ${input.theme}
+                Tech Stack: ${input.techStack}
+                Team Size: ${input.teamSize}
+                Difficulty: ${input.difficulty}
+                Duration: ${input.duration}
+                
+                Please provide the response in the following format:
+                
+                🚀 PROJECT TITLE
+                [A catchy, relevant title]
+
+                📝 PROJECT OVERVIEW
+                [2-3 sentences describing the core concept]
+
+                🎯 KEY FEATURES
+                - [Feature 1]
+                - [Feature 2]
+                - [Feature 3]
+                - [Feature 4]
+
+                🛠️ TECHNICAL ARCHITECTURE
+                - Frontend: [Specific technologies]
+                - Backend: [Specific technologies]
+                - Database: [Specific choice]
+                - Additional Tools: [Any other required tools]
+
+                ⏱️ IMPLEMENTATION TIMELINE
+                Hour 1-4: [Initial setup tasks]
+                Hour 5-12: [Core feature development]
+                Hour 13-20: [Additional features]
+                Hour 21-24: [Final touches and testing]
+
+                💡 INNOVATION FACTORS
+                [What makes this project unique and impactful]
+
+                ⚠️ POTENTIAL CHALLENGES
+                - [Challenge 1]
+                - [Challenge 2]
+
+                🌟 WINNING POTENTIAL
+                [Why this idea stands out in a hackathon]`
+            );
             setIdea(result);
         } catch (err) {
-            console.error("Generation error:", err);
-            setError(err.message || "Failed to generate idea. Please try again.");
+            setError(err.message || "Failed to generate idea");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-3xl mx-auto p-6 mt-10">
-            <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-300"></div>
-                <div className="relative bg-white rounded-xl shadow-xl p-6">
-                    <h2 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                        🎯 Hackathon Idea Generator
+        <div className="min-h-screen bg-black py-12">
+            <div className="max-w-4xl mx-auto px-6">
+                <div className="bg-black border-2 border-[#01FF00]/20 rounded-xl shadow-xl p-6">
+                    <h2 className="text-2xl font-bold text-center mb-8 text-[#01FF00]">
+                        🎯 Generate Your Hackathon Project
                     </h2>
 
-                    <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                        <input
-                            type="text"
-                            name="theme"
-                            value={input.theme}
-                            onChange={handleChange}
-                            placeholder="Hackathon Theme (e.g., Fintech)"
-                            className="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        />
-                        <input
-                            type="text"
-                            name="techStack"
-                            value={input.techStack}
-                            onChange={handleChange}
-                            placeholder="Tech Stack (e.g., React, Firebase)"
-                            className="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        />
-                        <input
-                            type="number"
-                            name="teamSize"
-                            value={input.teamSize}
-                            onChange={handleChange}
-                            placeholder="Team Size"
-                            className="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        />
-                        <select
-                            name="difficulty"
-                            value={input.difficulty}
-                            onChange={handleChange}
-                            className="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        >
-                            <option>Beginner</option>
-                            <option>Intermediate</option>
-                            <option>Advanced</option>
-                        </select>
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+                        <div>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Theme/Domain*</label>
+                            <input
+                                type="text"
+                                name="theme"
+                                value={input.theme}
+                                onChange={handleChange}
+                                placeholder="e.g., Healthcare, FinTech"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50"
+                            />
+                        </div>
+                        
+                        <div>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Tech Stack*</label>
+                            <input
+                                type="text"
+                                name="techStack"
+                                value={input.techStack}
+                                onChange={handleChange}
+                                placeholder="e.g., React, Node.js"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Team Size*</label>
+                            <input
+                                type="number"
+                                name="teamSize"
+                                value={input.teamSize}
+                                onChange={handleChange}
+                                placeholder="Number of members"
+                                min="1"
+                                max="6"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Experience Level</label>
+                            <select
+                                name="difficulty"
+                                value={input.difficulty}
+                                onChange={handleChange}
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white"
+                            >
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                            </select>
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Hackathon Duration</label>
+                            <select
+                                name="duration"
+                                value={input.duration}
+                                onChange={handleChange}
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white"
+                            >
+                                <option>24 Hours</option>
+                                <option>36 Hours</option>
+                                <option>48 Hours</option>
+                            </select>
+                        </div>
                     </div>
 
                     {error && (
-                        <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                        <div className="mt-4 p-3 bg-red-900/20 border border-red-500 text-red-500 rounded-lg">
                             {error}
                         </div>
                     )}
@@ -109,17 +166,19 @@ Keep it fresh, realistic, and exciting for a hackathon.`;
                     <button
                         onClick={generateIdea}
                         disabled={loading}
-                        className="w-full mt-5 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02]"
+                        className="w-full mt-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {loading ? "Generating Idea..." : "Generate Project Idea 🚀"}
+                        {loading ? "Generating Your Project Idea..." : "Generate Project Idea 🚀"}
                     </button>
 
                     {idea && (
-                        <div className="mt-6 p-4 bg-blue-50 rounded-lg whitespace-pre-wrap">
-                            <h3 className="text-xl font-semibold mb-2 text-blue-700">
-                                ✨ Your AI-Generated Project Idea:
-                            </h3>
-                            <p className="text-gray-700">{idea}</p>
+                        <div className="mt-8 p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg">
+                            <h3 className="text-xl font-semibold mb-4 text-[#01FF00]">Your Generated Project Idea:</h3>
+                            <div className="prose prose-invert max-w-none">
+                                <div className="whitespace-pre-wrap text-white">
+                                    {idea}
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>

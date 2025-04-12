@@ -1,65 +1,65 @@
-import React, { useState } from "react";
+import { useState } from 'react';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
-const faqs = [
-  {
-    question: "What does this tool do?",
-    answer:
-      "This tool generates unique and innovative hackathon project ideas based on your selected theme, tech stack, team size, and difficulty level using AI.",
-  },
-  {
-    question: "Is the AI free to use?",
-    answer:
-      "Yes, this tool uses the free-tier Gemini API by Google. Just make sure your API key is active and not rate-limited.",
-  },
-  {
-    question: "How are ideas generated?",
-    answer:
-      "We use AI (Gemini/text-bison model) to process your input and craft ideas using prompt engineering techniques.",
-  },
-  {
-    question: "Can I save or export ideas?",
-    answer:
-      "In this version, you can copy the ideas. Export and save features will be added soon!",
-  },
-  {
-    question: "Can I regenerate a different idea with the same input?",
-    answer:
-      "Yes! Just click 'Generate Project Idea' again — you'll get a fresh idea each time.",
-  },
-];
+const FAQ = () => {
+    const [openIndex, setOpenIndex] = useState(null);
 
-const FaqSection = () => {
-  const [openIndex, setOpenIndex] = useState(null);
+    const faqs = [
+        {
+            question: "How does the idea generator work?",
+            answer: "Our AI-powered generator analyzes your input parameters like theme, tech stack, and team size to create customized project ideas perfect for hackathons."
+        },
+        {
+            question: "Is this service free to use?",
+            answer: "Yes, the basic idea generation service is completely free to use. We may introduce premium features in the future."
+        },
+        {
+            question: "Can I get multiple ideas for the same parameters?",
+            answer: "Absolutely! You can generate multiple different ideas with the same parameters to explore various possibilities."
+        },
+        {
+            question: "How detailed are the project ideas?",
+            answer: "Each idea includes a project title, description, key features, technical architecture, and implementation timeline breakdown."
+        },
+        {
+            question: "Can I modify the generated ideas?",
+            answer: "Yes, the generated ideas are starting points. You're encouraged to modify and adapt them to better suit your team's needs."
+        }
+    ];
 
-  const toggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+    return (
+        <section className="py-20 bg-black">
+            <div className="max-w-3xl mx-auto px-6">
+                <h2 className="text-3xl font-bold text-center mb-12 text-[#01FF00]">
+                    Frequently Asked Questions
+                </h2>
 
-  return (
-    <div className="max-w-4xl mx-auto my-12 p-6 bg-white shadow-lg rounded-xl">
-      <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-        🤔 Frequently Asked Questions
-      </h2>
-
-      {faqs.map((faq, index) => (
-        <div
-          key={index}
-          className="border-b border-gray-200 py-4 cursor-pointer"
-          onClick={() => toggle(index)}
-        >
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-medium text-gray-800">{faq.question}</h3>
-            <span className="text-blue-600 text-2xl">
-              {openIndex === index ? "−" : "+"}
-            </span>
-          </div>
-          {openIndex === index && (
-            <p className="mt-2 text-gray-600 transition duration-300">{faq.answer}</p>
-          )}
-        </div>
-      ))}
-    </div>
-  );
+                <div className="space-y-4">
+                    {faqs.map((faq, index) => (
+                        <div key={index} className="border-2 border-[#01FF00]/20 rounded-lg overflow-hidden">
+                            <button
+                                className="w-full p-4 text-left bg-black hover:bg-[#01FF00]/5 transition-colors duration-200 flex justify-between items-center"
+                                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                            >
+                                <span className="font-medium text-white">{faq.question}</span>
+                                {openIndex === index ? (
+                                    <FiChevronUp className="w-5 h-5 text-[#01FF00]" />
+                                ) : (
+                                    <FiChevronDown className="w-5 h-5 text-[#01FF00]" />
+                                )}
+                            </button>
+                            
+                            {openIndex === index && (
+                                <div className="p-4 bg-black border-t border-[#01FF00]/20">
+                                    <p className="text-white/70">{faq.answer}</p>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 };
 
-export default FaqSection;
+export default FAQ;
