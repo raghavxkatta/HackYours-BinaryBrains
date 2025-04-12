@@ -4,8 +4,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Footer from './components/Footer';
-import CareerPathGenerator from './pages/CareerPathGenerator';
+import IdeaGenerator from './pages/IdeaGenerator';
 import SmoothScroll from './components/LensisScroll';
+
 function App() {
   return (
     <Router>
@@ -15,10 +16,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <CareerPathGenerator path="/career-path" element={<CareerPathGenerator />} />
+            <Route path="/ideaGenerator" element={<IdeaGenerator />} />
           </Routes>
-        <Footer />
-        </SmoothScroll>
+        
+      </SmoothScroll>
     </Router>
   );
 }

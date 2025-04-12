@@ -15,7 +15,8 @@ const Navbar = () => {
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center justify-center flex-1">
                         <div className="flex space-x-8">
-                            <a href="#" className="text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer">Home</a>
+                            <Link to="/" className="text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer">Home</Link>
+                            <Link to="/ideaGenerator" className="text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer">Idea Generator</Link>
                             <a href="#" className="text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer">Features</a>
                             <a href="#" className="text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer">About</a>
                             <a href="#" className="text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer">Contact</a>
@@ -54,7 +55,8 @@ const Navbar = () => {
                 {isOpen && (
                     <div className="md:hidden bg-white/95 backdrop-blur-md">
                         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                            <a href="#" className="block text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer py-2">Home</a>
+                            <Link to="/" className="block text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer py-2">Home</Link>
+                            <Link to="/ideaGenerator" className="block text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer py-2">Idea Generator</Link>
                             <a href="#" className="block text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer py-2">Features</a>
                             <a href="#" className="block text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer py-2">About</a>
                             <a href="#" className="block text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105 cursor-pointer py-2">Contact</a>
