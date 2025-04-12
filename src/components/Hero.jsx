@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 // import { theme } from '../utils/theme';
-import ideaImage from '../assets/global.png';
-import { FiUsers, FiBarChart2, FiTarget, FiShield } from 'react-icons/fi';
+import ideaImage from '../assets/animation/Computer.png';
+;
 
 const Hero = () => {
     return (
