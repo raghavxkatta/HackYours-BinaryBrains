@@ -1,4 +1,4 @@
-import { FiCommand, FiCpu, FiClock, FiUsers } from 'react-icons/fi';
+import { FiCommand, FiCpu, FiClock, FiUsers, FiMessageSquare, FiTarget, FiZap, FiAlertTriangle } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
 const features = [
@@ -21,6 +21,26 @@ const features = [
         icon: <FiUsers className="w-8 h-8" />,
         title: "Team Oriented",
         description: "Projects scaled to your team size and expertise",
+    },
+    {
+        icon: <FiMessageSquare className="w-8 h-8" />,
+        title: "Pitch Generator",
+        description: "AI-assisted pitch creation for impressive project presentations",
+    },
+    {
+        icon: <FiZap className="w-8 h-8" />,
+        title: "Innovation Factors",
+        description: "Assessment of project uniqueness and innovative aspects",
+    },
+    {
+        icon: <FiAlertTriangle className="w-8 h-8" />,
+        title: "Potential Challenges",
+        description: "Identification of possible roadblocks and mitigation strategies",
+    },
+    {
+        icon: <FiTarget className="w-8 h-8" />,
+        title: "Winning Potential",
+        description: "Analysis of project competitiveness and success factors",
     },
 ];
 
@@ -64,7 +84,7 @@ const Features = () => {
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, amount: 0.2 }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
                     {features.map((feature, index) => (
                         <motion.div
