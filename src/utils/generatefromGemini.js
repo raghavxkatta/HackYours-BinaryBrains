@@ -1,24 +1,22 @@
 // src/utils/generateFromGemini.js
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY, {
+  apiUrl: "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+});
 
 export const generateFromGemini = async (prompt) => {
-    try {
-        const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    prompt: { text: prompt },
-                    temperature: 0.7,
-                    candidateCount: 1,
-                }),
-            }
-        );
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const data = await res.json();
-        return data?.candidates?.[0]?.output ?? "❌ No output received.";
-    } catch (error) {
-        console.error("[Gemini fetch error]", error);
-        return "❌ Failed to fetch from Gemini API.";
-    }
+    const result = await model.generateContent({
+      contents: [{ parts: [{ text: prompt }] }],
+    });
+
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error("Gemini SDK Error:", error);
+    return "❌ Error generating content from Gemini.";
+  }
 };
