@@ -12,11 +12,11 @@ const Hero = () => {
                         <h1 className="text-5xl lg:text-6xl font-bold">
                             <span className="text-white">Generate Your Next</span>
                             <span className="block text-[#01FF00] mt-2">
-                                Hackathon Idea
+                            Carrier Idea
                             </span>
                         </h1>
                         <p className="mt-6 text-lg text-white/80">
-                            Transform your hackathon experience with AI-powered project ideas. Get detailed suggestions tailored to your team and tech stack.
+                            Transform your  experience with AI-powered  ideas. Get detailed suggestions tailored according  to your interest.
                         </p>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                             <Link to="/ideaGenerator" 
