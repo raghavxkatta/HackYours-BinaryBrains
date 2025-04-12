@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
+import Logo from '../assets/Logos/Logo-Green-Darkmode.png';
 
 const Navbar = () => {
     const { user, logout } = useFirebase();
@@ -17,7 +18,8 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
-                        <Link to="/" className="text-2xl font-bold text-[#01FF00]">
+                        <Link to="/" className="text-2xl flex font-bold text-[#01FF00]">
+                            <img src={Logo} alt="HackYours Logo" className="h-10 mr-2" />
                             HackYours
                         </Link>
                     </div>

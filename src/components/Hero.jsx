@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ideaImage from '../assets/Compute12.gif/Computer.gif'
 ;
 
+
 const Hero = () => {
     return (
         <section className="bg-black min-h-[90vh]">
