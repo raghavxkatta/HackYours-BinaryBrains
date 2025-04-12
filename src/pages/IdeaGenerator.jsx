@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
+import PitchGenerator from "../components/PitchGenerator";
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 const IdeaGenerator = () => {
@@ -197,23 +197,26 @@ const IdeaGenerator = () => {
                     )}
 
                     {idea && !loading && (
-                        <div className="mt-8 p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg">
-                            <h3 className="text-xl font-semibold mb-4 text-[#01FF00]">Your Generated Project Idea:</h3>
-                            <div className="prose prose-invert max-w-none">
-                                <div className="whitespace-pre-wrap text-white">
-                                    {idea}
+                        <div className="mt-8">
+                            <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg">
+                                <h3 className="text-xl font-semibold mb-4 text-[#01FF00]">Your Generated Project Idea:</h3>
+                                <div className="prose prose-invert max-w-none">
+                                    <div className="whitespace-pre-wrap text-white">
+                                        {idea}
+                                    </div>
+                                </div>
+                                <div className="mt-4 flex justify-end">
+                                    <button
+                                        onClick={() => navigator.clipboard.writeText(idea)}
+                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded hover:bg-[#01FF00]/10"
+                                    >
+                                        Copy Idea
+                                    </button>
                                 </div>
                             </div>
-                            <div className="mt-4 flex justify-end">
-                                <button
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(idea);
-                                    }}
-                                    className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded hover:bg-[#01FF00]/10"
-                                >
-                                    Copy to Clipboard
-                                </button>
-                            </div>
+                            
+                            {/* Add PitchGenerator component */}
+                            <PitchGenerator idea={idea} />
                         </div>
                     )}
                 </div>
