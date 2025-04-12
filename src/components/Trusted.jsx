@@ -43,7 +43,7 @@ const Trusted = () => {
                                 <img
                                     src={company.logo}
                                     alt={company.name}
-                                    className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                                    className="w-full h-full object-contain  transition-all duration-300"
                                 />
                             </div>
                         </div>

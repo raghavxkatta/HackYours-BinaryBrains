@@ -3,6 +3,7 @@ import Features from '../components/Features'
 import GetStarted from '../components/GetStarted'
 import UserReview from '../components/UserReview'
 import Trusted from '../components/Trusted'
+import FaqSection from "../components/Faq";
 import Footer from '../components/Footer'
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <Features />
       <UserReview />
       <Trusted />
+      <FaqSection />
       <GetStarted />
       <Footer />
     </div>

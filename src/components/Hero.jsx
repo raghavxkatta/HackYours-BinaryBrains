@@ -24,24 +24,6 @@ const Hero = () => {
                                 Learn More
                             </button>
                         </div>
-
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 pt-8 border-t border-gray-200">
-                            {[
-                                { label: "Active Users", value: "25K+", icon: FiUsers },
-                                { label: "Assets Managed", value: "320M+", icon: FiBarChart2 },
-                                { label: "Success Rate", value: "94%", icon: FiTarget },
-                                { label: "Client Satisfaction", value: "4.9/5", icon: FiShield },
-                            ].map((stat, index) => (
-                                <div
-                                    key={index}
-                                    className="flex flex-col items-center gap-2 text-center p-4 rounded-xl bg-gradient-to-br from-white to-blue-50 hover:to-blue-100 shadow-lg shadow-blue-100/20 hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer border border-blue-100"
-                                >
-                                    <stat.icon className="w-6 h-6 text-blue-600 transition-transform hover:scale-110" />
-                                    <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">{stat.value}</p>
-                                    <p className="text-sm text-gray-600">{stat.label}</p>
-                                </div>
-                            ))}
-                        </div>
                     </div>
 
                     <div className="flex-1 relative">
