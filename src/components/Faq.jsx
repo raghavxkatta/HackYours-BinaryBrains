@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const FAQ = () => {
     const [openIndex, setOpenIndex] = useState(null);
@@ -48,12 +49,21 @@ const FAQ = () => {
                                     <FiChevronDown className="w-5 h-5 text-[#01FF00]" />
                                 )}
                             </button>
-                            
-                            {openIndex === index && (
-                                <div className="p-4 bg-black border-t border-[#01FF00]/20">
-                                    <p className="text-white/70">{faq.answer}</p>
-                                </div>
-                            )}
+
+                            <AnimatePresence initial={false}>
+                                {openIndex === index && (
+                                    <motion.div
+                                        key="content"
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        className="bg-black border-t border-[#01FF00]/20 overflow-hidden"
+                                    >
+                                        <div className="p-4 text-white/70">{faq.answer}</div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
                     ))}
                 </div>
