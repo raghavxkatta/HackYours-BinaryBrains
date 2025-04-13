@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
 import Logo from '../assets/Logos/Logo-Green-Darkmode.png';
+import { FiFolder } from 'react-icons/fi';
 
 const Navbar = () => {
     const { user, logout } = useFirebase();
@@ -19,23 +20,22 @@ const Navbar = () => {
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
                         <Link to="/" className="text-2xl flex font-bold text-[#01FF00]">
-                            <img 
-                                src={Logo} 
-                                alt="HackYours Logo" 
-                                className={`${user ? 'h-6 sm:h-10' : 'h-10'} mr-2 transition-all duration-300`} 
-                            />
-                            <span className={`${user ? 'text-lg sm:text-2xl' : 'text-2xl'}`}>
-                                HackYours
-                            </span>
+                            <img src={Logo} alt="HackYours Logo" className="h-10 mr-2" />
+                            HackYours
                         </Link>
                     </div>
 
-                    <div className="flex items-center space-x-2 sm:space-x-4">
+                    <div className="flex items-center space-x-4">
                         {user ? (
                             <>
                                 <Link to="/ideaGenerator" 
                                     className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300">
                                     Generate Ideas
+                                </Link>
+                                <Link to="/my-ideas"
+                                    className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300 flex items-center gap-2">
+                                    <FiFolder className="w-4 h-4" />
+                                    My Ideas
                                 </Link>
                                 <button
                                     onClick={handleLogout}

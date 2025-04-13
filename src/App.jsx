@@ -5,8 +5,10 @@ import Home from './pages/Home';
 import IdeaGenerator from './pages/IdeaGenerator';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import MyIdeas from './pages/MyIdeas';
 import AuthGuard from './components/Auth.guard';
 import Footer from './components/Footer';
+import PitchGenerator from './components/PitchGenerator';
 
 function App() {
   return (
@@ -21,8 +23,18 @@ function App() {
                 <IdeaGenerator />
               </AuthGuard>
             } />
+            <Route path="/pitchGenerator" element={
+              <AuthGuard>
+                <PitchGenerator />
+              </AuthGuard>
+            } />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/my-ideas" element={
+              <AuthGuard>
+                <MyIdeas />
+              </AuthGuard>
+            } />
           </Routes>
           <Footer />
         </div>

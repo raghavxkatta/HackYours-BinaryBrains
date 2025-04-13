@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { saveIdea } from '../services/storageService';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
@@ -55,6 +56,16 @@ Requirements:
         }
     };
 
+    const handleSavePitch = () => {
+        try {
+            saveIdea(idea, pitch);
+            alert('Pitch saved successfully!');
+        } catch (error) {
+            console.error('Error saving pitch:', error);
+            alert('Failed to save pitch');
+        }
+    };
+
     if (!idea) return null;
 
     return (
@@ -106,10 +117,16 @@ Requirements:
                 <div className="mt-6 p-4 border border-blue-400 rounded-lg bg-black text-white">
                     <h4 className="text-lg font-semibold text-blue-400 mb-2">🎯 Your Pitch:</h4>
                     <div className="whitespace-pre-wrap">{pitch}</div>
-                    <div className="mt-2 flex justify-end">
+                    <div className="mt-6 flex justify-end gap-4">
+                        <button
+                            onClick={handleSavePitch}
+                            className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
+                        >
+                            Save Pitch
+                        </button>
                         <button
                             onClick={() => navigator.clipboard.writeText(pitch)}
-                            className="px-4 py-2 text-sm text-blue-400 border border-blue-400 rounded hover:bg-blue-500/10"
+                            className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
                         >
                             Copy Pitch
                         </button>

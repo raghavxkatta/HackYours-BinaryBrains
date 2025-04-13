@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import PitchGenerator from "../components/PitchGenerator";
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { FiCommand, FiCpu, FiClock, FiUsers, FiMessageSquare, FiZap, FiAlertTriangle, FiAward, FiClipboard, FiLayers } from 'react-icons/fi';
+import { saveIdea } from '../services/storageService';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
@@ -172,6 +173,16 @@ Format your response EXACTLY as follows with all sections:
         }
     };
 
+    const handleSaveIdea = () => {
+        try {
+            saveIdea(idea);
+            alert('Idea saved successfully!');
+        } catch (error) {
+            console.error('Error saving idea:', error);
+            alert('Failed to save idea');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-black py-12">
             <div className="max-w-4xl mx-auto px-6">
@@ -309,7 +320,13 @@ Format your response EXACTLY as follows with all sections:
                                         return null;
                                     })}
                                 </div>
-                                <div className="mt-6 flex justify-end">
+                                <div className="mt-6 flex justify-end gap-4">
+                                    <button
+                                        onClick={handleSaveIdea}
+                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
+                                    >
+                                        Save Idea
+                                    </button>
                                     <button
                                         onClick={() => navigator.clipboard.writeText(idea)}
                                         className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
