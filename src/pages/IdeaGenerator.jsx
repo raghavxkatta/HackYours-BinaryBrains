@@ -199,23 +199,57 @@ const IdeaGenerator = () => {
                     {idea && !loading && (
                         <div className="mt-8">
                             <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg">
-                                <h3 className="text-xl font-semibold mb-4 text-[#01FF00]">Your Generated Project Idea:</h3>
+                                <h3 className="text-xl font-semibold mb-6 text-[#01FF00]">Your Generated Project Idea:</h3>
                                 <div className="prose prose-invert max-w-none">
-                                    <div className="whitespace-pre-wrap text-white">
-                                        {idea}
+                                    <div className="space-y-6 text-white">
+                                        {idea.split('\n\n').map((section, index) => {
+                                            if (section.startsWith('🚀 PROJECT TITLE')) {
+                                                return (
+                                                    <div key={index} className="bg-[#01FF00]/5 p-4 rounded-lg border border-[#01FF00]/20">
+                                                        <h2 className="text-2xl font-bold text-[#01FF00] mb-2">{section.split('\n')[1]}</h2>
+                                                    </div>
+                                                );
+                                            }
+                                            if (section.includes('📝 PROJECT OVERVIEW') || 
+                                                section.includes('🎯 KEY FEATURES') ||
+                                                section.includes('🛠️ TECHNICAL ARCHITECTURE') ||
+                                                section.includes('⏱️ IMPLEMENTATION TIMELINE') ||
+                                                section.includes('💡 INNOVATION FACTORS') ||
+                                                section.includes('⚠️ POTENTIAL CHALLENGES') ||
+                                                section.includes('🌟 WINNING POTENTIAL')) {
+                                                const [title, ...content] = section.split('\n');
+                                                return (
+                                                    <div key={index} className="bg-black/50 p-4 rounded-lg border border-[#01FF00]/20">
+                                                        <h3 className="text-lg font-semibold text-[#01FF00] mb-3">{title}</h3>
+                                                        <div className="space-y-2">
+                                                            {content.map((line, i) => (
+                                                                <p key={i} className="text-white/90">
+                                                                    {line.trim().startsWith('-') ? (
+                                                                        <span className="flex items-start">
+                                                                            <span className="text-[#01FF00] mr-2">•</span>
+                                                                            {line.substring(1)}
+                                                                        </span>
+                                                                    ) : line}
+                                                                </p>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        })}
                                     </div>
                                 </div>
-                                <div className="mt-4 flex justify-end">
+                                <div className="mt-6 flex justify-end">
                                     <button
                                         onClick={() => navigator.clipboard.writeText(idea)}
-                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded hover:bg-[#01FF00]/10"
+                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
                                     >
                                         Copy Idea
                                     </button>
                                 </div>
                             </div>
                             
-                            {/* Add PitchGenerator component */}
                             <PitchGenerator idea={idea} />
                         </div>
                     )}
