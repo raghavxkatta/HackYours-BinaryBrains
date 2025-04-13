@@ -98,9 +98,9 @@ const Login = () => {
                                 id="remember-me"
                                 name="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 border-[#01FF00] bg-black focus:ring-[#01FF00] cursor-pointer transition-all duration-300"
+                                className="h-4 w-4 text-[#01FF00] border-2 border-[#01FF00]/40 bg-black rounded focus:ring-[#01FF00] focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer transition-all duration-300 checked:bg-[#01FF00] checked:border-[#01FF00]"
                             />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-white/80 group-hover:text-white transition-colors cursor-pointer">
+                            <label htmlFor="remember-me" className="ml-2 block text-sm text-[#01FF00]/80 group-hover:text-[#01FF00] transition-colors cursor-pointer">
                                 Remember me
                             </label>
                         </div>
