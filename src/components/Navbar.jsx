@@ -19,12 +19,18 @@ const Navbar = () => {
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
                         <Link to="/" className="text-2xl flex font-bold text-[#01FF00]">
-                            <img src={Logo} alt="HackYours Logo" className="h-10 mr-2" />
-                            HackYours
+                            <img 
+                                src={Logo} 
+                                alt="HackYours Logo" 
+                                className={`${user ? 'h-6 sm:h-10' : 'h-10'} mr-2 transition-all duration-300`} 
+                            />
+                            <span className={`${user ? 'text-lg sm:text-2xl' : 'text-2xl'}`}>
+                                HackYours
+                            </span>
                         </Link>
                     </div>
 
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2 sm:space-x-4">
                         {user ? (
                             <>
                                 <Link to="/ideaGenerator" 
