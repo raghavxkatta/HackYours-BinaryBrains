@@ -87,33 +87,35 @@ const Navbar = () => {
             </div>
 
             {/* Mobile dropdown menu */}
-            {user && mobileMenuOpen && (
-                <div className="sm:hidden bg-black border-t border-[#01FF00]/20 px-4 pb-4 space-y-2">
-                    <Link
-                        to="/ideaGenerator"
-                        className="block text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300"
-                        onClick={toggleMobileMenu}
-                    >
-                        Generate Ideas
-                    </Link>
-                    <Link
-                        to="/my-ideas"
-                        className="block text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300"
-                        onClick={toggleMobileMenu}
-                    >
-                        My Ideas
-                    </Link>
-                    <button
-                        onClick={() => {
-                            toggleMobileMenu();
-                            handleLogout();
-                        }}
-                        className="w-full text-left px-4 py-2 text-[#01FF00] border border-[#01FF00]/40 rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
-                    >
-                        Logout
-                    </button>
-                </div>
-            )}
+{user && mobileMenuOpen && (
+    <div className="sm:hidden bg-black border-t border-[#01FF00]/20 px-4 py-4 space-y-3 shadow-md rounded-b-lg animate-fade-in-down">
+        <Link
+            to="/ideaGenerator"
+            onClick={toggleMobileMenu}
+            className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
+        >
+            🚀 Generate Ideas
+        </Link>
+
+        <Link
+            to="/my-ideas"
+            onClick={toggleMobileMenu}
+            className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
+        >
+            📁 My Ideas
+        </Link>
+
+        <button
+            onClick={() => {
+                toggleMobileMenu();
+                handleLogout();
+            }}
+            className="w-full text-left px-4 py-2 rounded-md border border-[#01FF00]/30 text-[#01FF00] bg-[#01FF00]/5 hover:bg-[#01FF00]/10 transition-all duration-200 font-medium"
+        >
+            🔒 Logout
+        </button>
+    </div>
+)}
         </nav>
     );
 };
