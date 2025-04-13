@@ -69,14 +69,14 @@ Requirements:
     if (!idea) return null;
 
     return (
-        <div className="mt-10">
-            <h3 className="text-xl font-bold text-white mb-4">🎛 Customize Your Pitch</h3>
+        <div className="border-2 border-[#01FF00]/20 rounded-xl p-6 hover:border-[#01FF00]/40 transition-all duration-300">
+            <h3 className="text-xl font-bold text-[#01FF00] mb-6">🎤 Generate Project Pitch</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-black mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <select
                     value={tone}
                     onChange={(e) => setTone(e.target.value)}
-                    className="p-3 rounded-lg bg-white font-semibold"
+                    className="p-3 rounded-lg bg-black border-2 border-[#01FF00]/40 text-white font-medium focus:border-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300 cursor-pointer"
                 >
                     <option>Storytelling</option>
                     <option>Formal</option>
@@ -87,7 +87,7 @@ Requirements:
                 <select
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
-                    className="p-3 rounded-lg bg-white font-semibold"
+                    className="p-3 rounded-lg bg-black border-2 border-[#01FF00]/40 text-white font-medium focus:border-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300 cursor-pointer"
                 >
                     <option>30 Seconds</option>
                     <option>1 Minute</option>
@@ -97,7 +97,7 @@ Requirements:
                 <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="p-3 rounded-lg bg-white font-semibold"
+                    className="p-3 rounded-lg bg-black border-2 border-[#01FF00]/40 text-white font-medium focus:border-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300 cursor-pointer"
                 >
                     <option>English</option>
                     <option>Hindi</option>
@@ -108,15 +108,22 @@ Requirements:
             <button
                 onClick={generatePitch}
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition disabled:opacity-50"
+                className="w-full bg-[#01FF00] text-black font-bold py-4 rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98]"
             >
-                {loading ? "Generating Pitch..." : "🎤 Generate Custom Pitch"}
+                {loading ? "Creating Your Pitch..." : "Generate Custom Pitch 🎯"}
             </button>
 
+            {loading && (
+                <div className="mt-8 text-center">
+                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#01FF00] border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                    <p className="mt-2 text-[#01FF00]">Crafting your perfect pitch...</p>
+                </div>
+            )}
+
             {pitch && (
-                <div className="mt-6 p-4 border border-blue-400 rounded-lg bg-black text-white">
-                    <h4 className="text-lg font-semibold text-blue-400 mb-2">🎯 Your Pitch:</h4>
-                    <div className="whitespace-pre-wrap">{pitch}</div>
+                <div className="mt-8 border-2 border-[#01FF00]/40 rounded-lg p-6 hover:border-[#01FF00]/60 transition-all duration-300">
+                    <h4 className="text-xl font-semibold text-[#01FF00] mb-4">Your Pitch:</h4>
+                    <div className="whitespace-pre-wrap text-white/90">{pitch}</div>
                     <div className="mt-6 flex justify-end gap-4">
                         <button
                             onClick={handleSavePitch}
