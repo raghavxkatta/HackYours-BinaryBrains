@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -9,6 +10,10 @@ const Signup = () => {
         password: '',
         confirmPassword: ''
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { signupUserWithEmailAndPassword, putData } = useFirebase();
@@ -79,6 +84,7 @@ const Signup = () => {
                                 placeholder="Full Name"
                             />
                         </div>
+
                         <div>
                             <label htmlFor="email" className="sr-only">Email address</label>
                             <input
@@ -92,31 +98,51 @@ const Signup = () => {
                                 placeholder="Email address"
                             />
                         </div>
-                        <div>
+
+                        {/* Password Field */}
+                        <div className="relative">
                             <label htmlFor="password" className="sr-only">Password</label>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 pr-10 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Password"
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(prev => !prev)}
+                                className="absolute inset-y-0 right-3 flex items-center text-[#01FF00]/70 hover:text-[#01FF00]"
+                                tabIndex={-1}
+                            >
+                                {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                            </button>
                         </div>
-                        <div>
+
+                        {/* Confirm Password Field */}
+                        <div className="relative">
                             <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
                             <input
                                 id="confirmPassword"
                                 name="confirmPassword"
-                                type="password"
+                                type={showConfirmPassword ? 'text' : 'password'}
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 required
-                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 pr-10 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Confirm Password"
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(prev => !prev)}
+                                className="absolute inset-y-0 right-3 flex items-center text-[#01FF00]/70 hover:text-[#01FF00]"
+                                tabIndex={-1}
+                            >
+                                {showConfirmPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                            </button>
                         </div>
                     </div>
 

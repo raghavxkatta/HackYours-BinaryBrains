@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const Login = () => {
         password: ''
     });
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // 👁️ New state
     const navigate = useNavigate();
     const { loginWithEmailAndPassword } = useFirebase();
 
@@ -21,7 +23,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        
+
         try {
             await loginWithEmailAndPassword(formData.email, formData.password);
             navigate('/ideaGenerator');
@@ -44,7 +46,7 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
-                
+
                 {error && (
                     <div className="bg-red-500/10 border border-red-500 text-red-500 rounded-lg p-3 text-sm">
                         {error}
@@ -66,18 +68,27 @@ const Login = () => {
                                 placeholder="Email address"
                             />
                         </div>
-                        <div>
+
+                        <div className="relative">
                             <label htmlFor="password" className="sr-only">Password</label>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300"
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 pr-10 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300"
                                 placeholder="Password"
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(prev => !prev)}
+                                className="absolute inset-y-0 right-3 flex items-center text-[#01FF00]/70 hover:text-[#01FF00] focus:outline-none"
+                                tabIndex={-1}
+                            >
+                                {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                            </button>
                         </div>
                     </div>
 
