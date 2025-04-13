@@ -46,7 +46,7 @@ const Navbar = () => {
                                     to="/my-ideas"
                                     className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300 flex items-center gap-2 cursor-pointer hover:scale-105"
                                 >
-                                    <FiFolder className="w-4 h-4" />
+                                    
                                     My Ideas
                                 </Link>
                                 <button

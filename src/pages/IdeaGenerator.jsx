@@ -210,7 +210,7 @@ Format your response EXACTLY as follows:
             <div className="max-w-4xl mx-auto px-6">
                 <div className="bg-black border-2 border-[#01FF00]/20 rounded-xl shadow-xl p-6">
                     <h2 className="text-2xl font-bold text-center mb-8 text-[#01FF00] cursor-default">
-                        🎯 Generate Your Hackathon Project
+                         Generate Your Hackathon Project
                     </h2>
 
                     <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
@@ -275,6 +275,7 @@ why is it not giving me unique projects
                                 onChange={handleChange}
                                 className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white cursor-pointer hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
                             >
+                                <option>12 Hours</option>
                                 <option>24 Hours</option>
                                 <option>36 Hours</option>
                                 <option>48 Hours</option>
@@ -301,7 +302,7 @@ why is it not giving me unique projects
                                 </svg>
                                 Generating Your Project Idea...
                             </span>
-                        ) : "Generate Project Idea 🚀"}
+                        ) : "Generate Project Idea "}
                     </button>
 
                     {loading && (
