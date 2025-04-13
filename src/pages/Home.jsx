@@ -1,9 +1,8 @@
 import Hero from '../components/Hero';
 import Features from '../components/Features';
 import FAQ from '../components/Faq';
-import UserReview from '../components/UserReview';
 import SmoothScroll from '../components/LensisScroll';
-import GetStarted from '../components/GetStarted';
+
 
 const Separator = () => (
     <div className="w-full max-w-7xl mx-auto px-6">
@@ -19,10 +18,7 @@ const Home = () => {
             <Separator />
             <Features />
             <Separator />
-            {/* <UserReview /> */}
-            <Separator />
             <FAQ />
-            {/* <GetStarted /> */}
             </SmoothScroll>
         </main>
     );

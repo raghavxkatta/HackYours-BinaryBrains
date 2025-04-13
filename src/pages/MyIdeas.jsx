@@ -36,9 +36,16 @@ const MyIdeas = () => {
                                 <div className="p-6 bg-black">
                                     <div className="flex justify-between items-start">
                                         <div>
-                                            <h3 className="text-xl font-bold text-[#01FF00] mb-2">
-                                                {item.idea.split('\n')[1] || 'Untitled Project'}
-                                            </h3>
+                                            <div className="flex items-center gap-3">
+                                                <h3 className="text-xl font-bold text-[#01FF00] mb-2">
+                                                    {item.idea.split('\n')[1] || 'Untitled Project'}
+                                                </h3>
+                                                {item.pitch && (
+                                                    <span className="px-2 py-1 text-xs font-medium bg-[#01FF00]/10 text-[#01FF00] rounded-full border border-[#01FF00]/20">
+                                                        with pitch
+                                                    </span>
+                                                )}
+                                            </div>
                                             <p className="text-white/50 text-sm">
                                                 {new Date(item.createdAt).toLocaleDateString()}
                                             </p>
