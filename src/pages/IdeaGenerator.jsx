@@ -187,37 +187,37 @@ Format your response EXACTLY as follows with all sections:
         <div className="min-h-screen bg-black py-12">
             <div className="max-w-4xl mx-auto px-6">
                 <div className="bg-black border-2 border-[#01FF00]/20 rounded-xl shadow-xl p-6">
-                    <h2 className="text-2xl font-bold text-center mb-8 text-[#01FF00]">
+                    <h2 className="text-2xl font-bold text-center mb-8 text-[#01FF00] cursor-default">
                         🎯 Generate Your Hackathon Project
                     </h2>
 
                     <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
                         <div className="group">
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Theme/Domain*</label>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 cursor-default group-hover:translate-x-1 transition-transform duration-300">Theme/Domain*</label>
                             <input
                                 type="text"
                                 name="theme"
                                 value={input.theme}
                                 onChange={handleChange}
                                 placeholder="e.g., Healthcare, FinTech"
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300 cursor-text"
                             />
                         </div>
                         
                         <div className="group">
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Tech Stack*</label>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 cursor-default group-hover:translate-x-1 transition-transform duration-300">Tech Stack*</label>
                             <input
                                 type="text"
                                 name="techStack"
                                 value={input.techStack}
                                 onChange={handleChange}
                                 placeholder="e.g., React, Node.js"
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300 cursor-text"
                             />
                         </div>
 
                         <div className="group">
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Team Size*</label>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 cursor-default group-hover:translate-x-1 transition-transform duration-300">Team Size*</label>
                             <input
                                 type="number"
                                 name="teamSize"
@@ -226,12 +226,12 @@ Format your response EXACTLY as follows with all sections:
                                 placeholder="Number of members"
                                 min="1"
                                 max="6"
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300 cursor-pointer"
                             />
                         </div>
 
                         <div className="group">
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Experience Level</label>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 cursor-default group-hover:translate-x-1 transition-transform duration-300">Experience Level</label>
                             <select
                                 name="difficulty"
                                 value={input.difficulty}
@@ -245,12 +245,12 @@ Format your response EXACTLY as follows with all sections:
                         </div>
 
                         <div className="md:col-span-2">
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Hackathon Duration</label>
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 cursor-default">Hackathon Duration</label>
                             <select
                                 name="duration"
                                 value={input.duration}
                                 onChange={handleChange}
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white cursor-pointer hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
                             >
                                 <option>24 Hours</option>
                                 <option>36 Hours</option>
@@ -260,7 +260,7 @@ Format your response EXACTLY as follows with all sections:
                     </div>
 
                     {error && (
-                        <div className="mt-4 p-3 bg-red-900/20 border border-red-500 text-red-500 rounded-lg">
+                        <div className="mt-4 p-3 bg-red-900/20 border border-red-500 text-red-500 rounded-lg cursor-default">
                             {error}
                         </div>
                     )}
@@ -271,7 +271,7 @@ Format your response EXACTLY as follows with all sections:
                         className="w-full mt-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                     >
                         {loading ? (
-                            <span className="flex items-center justify-center">
+                            <span className="flex items-center justify-center cursor-wait">
                                 <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -282,16 +282,16 @@ Format your response EXACTLY as follows with all sections:
                     </button>
 
                     {loading && (
-                        <div className="mt-8 text-center">
+                        <div className="mt-8 text-center cursor-wait">
                             <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#01FF00] border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-                            <p className="mt-2 text-[#01FF00]">Crafting your perfect hackathon idea...</p>
+                            <p className="mt-2 text-[#01FF00] cursor-default">Crafting your perfect hackathon idea...</p>
                         </div>
                     )}
 
                     {idea && !loading && (
                         <div className="mt-8">
-                            <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg">
-                                <h3 className="text-xl font-semibold mb-6 text-[#01FF00]">Your Generated Project Idea:</h3>
+                            <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg hover:border-[#01FF00]/60 transition-all duration-300">
+                                <h3 className="text-xl font-semibold mb-6 text-[#01FF00] cursor-default">Your Generated Project Idea:</h3>
                                 <div className="space-y-4">
                                     {idea.split('\n\n').map((section, index) => {
                                         if (section.startsWith('🚀 PROJECT TITLE')) {
@@ -331,13 +331,13 @@ Format your response EXACTLY as follows with all sections:
                                 <div className="mt-6 flex justify-end gap-4">
                                     <button
                                         onClick={handleSaveIdea}
-                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
+                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer"
                                     >
                                         Save Idea
                                     </button>
                                     <button
                                         onClick={() => navigator.clipboard.writeText(idea)}
-                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300"
+                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer"
                                     >
                                         Copy Idea
                                     </button>
