@@ -21,7 +21,7 @@ const Hero = () => {
                         </p>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                             <Link to="/ideaGenerator" 
-                                className="px-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300">
+                                className="px-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 hover:scale-105 cursor-pointer hover:shadow-lg hover:shadow-[#01FF00]/20">
                                 Generate Ideas →
                             </Link>
                             <button className="px-8 py-4 bg-transparent text-[#01FF00] border-2 border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300">

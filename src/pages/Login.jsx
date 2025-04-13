@@ -62,7 +62,7 @@ const Login = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300"
                                 placeholder="Email address"
                             />
                         </div>
@@ -75,27 +75,27 @@ const Login = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300"
                                 placeholder="Password"
                             />
                         </div>
                     </div>
 
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center">
+                        <div className="flex items-center cursor-pointer group">
                             <input
                                 id="remember-me"
                                 name="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 border-[#01FF00] bg-black focus:ring-[#01FF00]"
+                                className="h-4 w-4 border-[#01FF00] bg-black focus:ring-[#01FF00] cursor-pointer transition-all duration-300"
                             />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-white/80">
+                            <label htmlFor="remember-me" className="ml-2 block text-sm text-white/80 group-hover:text-white transition-colors cursor-pointer">
                                 Remember me
                             </label>
                         </div>
 
                         <div className="text-sm">
-                            <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80">
+                            <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80 transition-colors hover:underline">
                                 Forgot password?
                             </a>
                         </div>
@@ -104,7 +104,7 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border-2 border-transparent rounded-lg text-black bg-[#01FF00] hover:opacity-90 focus:outline-none transition-all duration-300"
+                            className="group relative w-full flex justify-center py-3 px-4 border-2 border-transparent rounded-lg text-black bg-[#01FF00] hover:bg-[#01FF00]/90 focus:outline-none transition-all duration-300 hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98]"
                         >
                             Sign in
                         </button>

@@ -192,32 +192,32 @@ Format your response EXACTLY as follows with all sections:
                     </h2>
 
                     <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
-                        <div>
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Theme/Domain*</label>
+                        <div className="group">
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Theme/Domain*</label>
                             <input
                                 type="text"
                                 name="theme"
                                 value={input.theme}
                                 onChange={handleChange}
                                 placeholder="e.g., Healthcare, FinTech"
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
                             />
                         </div>
                         
-                        <div>
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Tech Stack*</label>
+                        <div className="group">
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Tech Stack*</label>
                             <input
                                 type="text"
                                 name="techStack"
                                 value={input.techStack}
                                 onChange={handleChange}
                                 placeholder="e.g., React, Node.js"
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Team Size*</label>
+                        <div className="group">
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Team Size*</label>
                             <input
                                 type="number"
                                 name="teamSize"
@@ -226,17 +226,17 @@ Format your response EXACTLY as follows with all sections:
                                 placeholder="Number of members"
                                 min="1"
                                 max="6"
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-[#01FF00] text-sm font-medium mb-2">Experience Level</label>
+                        <div className="group">
+                            <label className="block text-[#01FF00] text-sm font-medium mb-2 group-hover:translate-x-1 transition-transform duration-300">Experience Level</label>
                             <select
                                 name="difficulty"
                                 value={input.difficulty}
                                 onChange={handleChange}
-                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white"
+                                className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white cursor-pointer hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300"
                             >
                                 <option>Beginner</option>
                                 <option>Intermediate</option>
@@ -268,9 +268,17 @@ Format your response EXACTLY as follows with all sections:
                     <button
                         onClick={generateIdea}
                         disabled={loading}
-                        className="w-full mt-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full mt-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                     >
-                        {loading ? "Generating Your Project Idea..." : "Generate Project Idea 🚀"}
+                        {loading ? (
+                            <span className="flex items-center justify-center">
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Generating Your Project Idea...
+                            </span>
+                        ) : "Generate Project Idea 🚀"}
                     </button>
 
                     {loading && (

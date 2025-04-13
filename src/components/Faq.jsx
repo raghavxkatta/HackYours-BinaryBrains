@@ -37,16 +37,16 @@ const FAQ = () => {
 
                 <div className="space-y-4">
                     {faqs.map((faq, index) => (
-                        <div key={index} className="border-2 border-[#01FF00]/20 rounded-lg overflow-hidden">
+                        <div key={index} className="border-2 border-[#01FF00]/20 rounded-lg overflow-hidden hover:border-[#01FF00]/40 transition-all duration-300">
                             <button
-                                className="w-full p-4 text-left bg-black hover:bg-[#01FF00]/5 transition-colors duration-200 flex justify-between items-center"
+                                className="w-full p-4 text-left bg-black hover:bg-[#01FF00]/10 transition-all duration-300 flex justify-between items-center cursor-pointer group"
                                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                             >
-                                <span className="font-medium text-white">{faq.question}</span>
+                                <span className="font-medium text-white group-hover:text-[#01FF00] transition-colors">{faq.question}</span>
                                 {openIndex === index ? (
-                                    <FiChevronUp className="w-5 h-5 text-[#01FF00]" />
+                                    <FiChevronUp className="w-5 h-5 text-[#01FF00] transform transition-transform duration-300" />
                                 ) : (
-                                    <FiChevronDown className="w-5 h-5 text-[#01FF00]" />
+                                    <FiChevronDown className="w-5 h-5 text-[#01FF00] transform transition-transform duration-300" />
                                 )}
                             </button>
 

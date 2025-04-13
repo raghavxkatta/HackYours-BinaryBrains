@@ -90,14 +90,18 @@ const Features = () => {
                         <motion.div
                             key={index}
                             variants={card}
-                            className={`p-4 md:p-6 bg-black border-2 border-[#01FF00]/20 rounded-lg hover:border-[#01FF00] transition-all duration-300 shadow-md ${index >= 4 ? 'hidden lg:block' : ''}`}
-                            whileHover={{ scale: 1.05, rotate: [0, 1, -1, 0], transition: { duration: 0.4 } }}
+                            className={`p-4 md:p-6 bg-black border-2 border-[#01FF00]/20 rounded-lg cursor-pointer hover:border-[#01FF00] transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#01FF00]/20 ${index >= 4 ? 'hidden lg:block' : ''}`}
+                            whileHover={{ 
+                                scale: 1.05, 
+                                rotate: [0, 1, -1, 0], 
+                                transition: { duration: 0.4 } 
+                            }}
                         >
-                            <div className="flex items-center gap-3">
-                                <div className="text-[#01FF00]">{feature.icon}</div>
-                                <h3 className="text-lg md:text-xl font-semibold text-white">{feature.title}</h3>
+                            <div className="flex items-center gap-3 group">
+                                <div className="text-[#01FF00] group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
+                                <h3 className="text-lg md:text-xl font-semibold text-white group-hover:text-[#01FF00] transition-colors">{feature.title}</h3>
                             </div>
-                            <p className="text-sm md:text-base text-white/70 mt-2">{feature.description}</p>
+                            <p className="text-sm md:text-base text-white/70 mt-2 group-hover:text-white/90 transition-colors">{feature.description}</p>
                         </motion.div>
                     ))}
                 </motion.div>
