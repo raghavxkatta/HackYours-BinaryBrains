@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import PitchGenerator from "../components/PitchGenerator";
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiCommand, FiCpu, FiClock, FiUsers, FiMessageSquare, FiZap, FiAlertTriangle, FiAward, FiClipboard, FiLayers } from 'react-icons/fi';
+
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 const IdeaGenerator = () => {
@@ -15,10 +18,76 @@ const IdeaGenerator = () => {
     const [idea, setIdea] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [openSection, setOpenSection] = useState('');
 
     const handleChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
         setError("");
+    };
+
+    const toggleSection = (sectionId) => {
+        setOpenSection(openSection === sectionId ? '' : sectionId);
+    };
+
+    const Section = ({ id, title, content }) => {
+        const icons = {
+            'overview': <FiClipboard className="w-5 h-5" />,
+            'features': <FiLayers className="w-5 h-5" />,
+            'tech': <FiCpu className="w-5 h-5" />,
+            'timeline': <FiClock className="w-5 h-5" />,
+            'innovation': <FiZap className="w-5 h-5" />,
+            'challenges': <FiAlertTriangle className="w-5 h-5" />,
+            'winning': <FiAward className="w-5 h-5" />
+        };
+
+        const sectionTitles = {
+            'overview': 'Project Overview',
+            'features': 'Key Features',
+            'tech': 'Technical Architecture',
+            'timeline': 'Implementation Timeline',
+            'innovation': 'Innovation Factors',
+            'challenges': 'Potential Challenges',
+            'winning': 'Winning Potential'
+        };
+
+        return (
+            <div className="mb-4">
+                <div className="bg-[#01FF00]/5 p-4 rounded-t-lg border border-[#01FF00]/20">
+                    <div className="flex items-center gap-3">
+                        <span className="text-[#01FF00]">{icons[id]}</span>
+                        <h3 className="text-xl font-semibold text-[#01FF00]">{sectionTitles[id]}</h3>
+                    </div>
+                </div>
+                <button
+                    onClick={() => toggleSection(id)}
+                    className="w-full flex items-center justify-between p-4 bg-black/50 border-x border-b border-[#01FF00]/20 hover:bg-[#01FF00]/5 transition-all duration-300"
+                >
+                    <span className="text-[#01FF00]/80">View Details</span>
+                    {openSection === id ? 
+                        <FiChevronUp className="w-5 h-5 text-[#01FF00]" /> : 
+                        <FiChevronDown className="w-5 h-5 text-[#01FF00]" />
+                    }
+                </button>
+                {openSection === id && (
+                    <div className="mt-2 p-4 bg-black/30 border border-[#01FF00]/20 rounded-lg">
+                        <div className="prose prose-invert max-w-none">
+                            {Array.isArray(content) ? (
+                                <div className="space-y-2">
+                                    {content.map((item, i) => (
+                                        <div key={i} className="flex items-start">
+                                            <span className="text-[#01FF00] mr-2">•</span>
+                                            <span className="text-white/90">{item.trim().startsWith('-') ? item.substring(1) : item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-white/90">{content}</p>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
     };
 
     const generateIdea = async () => {
@@ -34,50 +103,54 @@ const IdeaGenerator = () => {
         try {
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
+            const prompt = `Generate an innovative hackathon project idea with the following specifications. Make sure to include ALL sections in the exact format specified:
 
+Theme: ${input.theme}
+Tech Stack: ${input.techStack}
+Team Size: ${input.teamSize}
+Difficulty: ${input.difficulty}
+Duration: ${input.duration}
 
-            const prompt = `Generate an innovative hackathon project idea with:
-                Theme: ${input.theme}
-                Tech Stack: ${input.techStack}
-                Team Size: ${input.teamSize}
-                Difficulty: ${input.difficulty}
-                Duration: ${input.duration}
-                
-                Please provide the response in the following format:
-                
-                🚀 PROJECT TITLE
-                [A catchy, relevant title]
+Format your response EXACTLY as follows with all sections:
 
-                📝 PROJECT OVERVIEW
-                [2-3 sentences describing the core concept]
+🚀 PROJECT TITLE
+[Project Name]
 
-                🎯 KEY FEATURES
-                - [Feature 1]
-                - [Feature 2]
-                - [Feature 3]
-                - [Feature 4]
+📝 PROJECT OVERVIEW
+[Overview text]
 
-                🛠️ TECHNICAL ARCHITECTURE
-                - Frontend: [Specific technologies]
-                - Backend: [Specific technologies]
-                - Database: [Specific choice]
-                - Additional Tools: [Any other required tools]
+🎯 KEY FEATURES
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+- [Feature 4]
 
-                ⏱️ IMPLEMENTATION TIMELINE
-                Hour 1-4: [Initial setup tasks]
-                Hour 5-12: [Core feature development]
-                Hour 13-20: [Additional features]
-                Hour 21-24: [Final touches and testing]
+🛠️ TECHNICAL ARCHITECTURE
+- Frontend: [Technologies]
+- Backend: [Technologies]
+- Database: [Choice]
+- Additional Tools: [Tools]
 
-                💡 INNOVATION FACTORS
-                [What makes this project unique and impactful]
+⏱️ IMPLEMENTATION TIMELINE
+- Hour 1-4: [Tasks]
+- Hour 5-12: [Tasks]
+- Hour 13-20: [Tasks]
+- Hour 21-24: [Tasks]
 
-                ⚠️ POTENTIAL CHALLENGES
-                - [Challenge 1]
-                - [Challenge 2]
+💡 INNOVATION FACTORS
+- [Factor 1]
+- [Factor 2]
+- [Factor 3]
 
-                🌟 WINNING POTENTIAL
-                [Why this idea stands out in a hackathon]`;
+⚠️ POTENTIAL CHALLENGES
+- [Challenge 1]
+- [Challenge 2]
+- [Challenge 3]
+
+🌟 WINNING POTENTIAL
+- [Point 1]
+- [Point 2]
+- [Point 3]`;
 
             const result = await model.generateContent({
                 contents: [{ parts: [{ text: prompt }] }],
@@ -200,45 +273,41 @@ const IdeaGenerator = () => {
                         <div className="mt-8">
                             <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg">
                                 <h3 className="text-xl font-semibold mb-6 text-[#01FF00]">Your Generated Project Idea:</h3>
-                                <div className="prose prose-invert max-w-none">
-                                    <div className="space-y-6 text-white">
-                                        {idea.split('\n\n').map((section, index) => {
-                                            if (section.startsWith('🚀 PROJECT TITLE')) {
+                                <div className="space-y-4">
+                                    {idea.split('\n\n').map((section, index) => {
+                                        if (section.startsWith('🚀 PROJECT TITLE')) {
+                                            const title = section.split('\n')[1];
+                                            return (
+                                                <div key="title" className="bg-[#01FF00]/5 p-4 rounded-lg border border-[#01FF00]/20">
+                                                    <h2 className="text-2xl font-bold text-[#01FF00]">{title}</h2>
+                                                </div>
+                                            );
+                                        }
+
+                                        const sections = {
+                                            'overview': '📝 PROJECT OVERVIEW',
+                                            'features': '🎯 KEY FEATURES',
+                                            'tech': '🛠️ TECHNICAL ARCHITECTURE',
+                                            'timeline': '⏱️ IMPLEMENTATION TIMELINE',
+                                            'innovation': '💡 INNOVATION FACTORS',
+                                            'challenges': '⚠️ POTENTIAL CHALLENGES',
+                                            'winning': '🌟 WINNING POTENTIAL'
+                                        };
+
+                                        for (const [key, header] of Object.entries(sections)) {
+                                            if (section.includes(header)) {
+                                                const [_, ...content] = section.split('\n');
                                                 return (
-                                                    <div key={index} className="bg-[#01FF00]/5 p-4 rounded-lg border border-[#01FF00]/20">
-                                                        <h2 className="text-2xl font-bold text-[#01FF00] mb-2">{section.split('\n')[1]}</h2>
-                                                    </div>
+                                                    <Section
+                                                        key={key}
+                                                        id={key}
+                                                        content={content}
+                                                    />
                                                 );
                                             }
-                                            if (section.includes('📝 PROJECT OVERVIEW') || 
-                                                section.includes('🎯 KEY FEATURES') ||
-                                                section.includes('🛠️ TECHNICAL ARCHITECTURE') ||
-                                                section.includes('⏱️ IMPLEMENTATION TIMELINE') ||
-                                                section.includes('💡 INNOVATION FACTORS') ||
-                                                section.includes('⚠️ POTENTIAL CHALLENGES') ||
-                                                section.includes('🌟 WINNING POTENTIAL')) {
-                                                const [title, ...content] = section.split('\n');
-                                                return (
-                                                    <div key={index} className="bg-black/50 p-4 rounded-lg border border-[#01FF00]/20">
-                                                        <h3 className="text-lg font-semibold text-[#01FF00] mb-3">{title}</h3>
-                                                        <div className="space-y-2">
-                                                            {content.map((line, i) => (
-                                                                <p key={i} className="text-white/90">
-                                                                    {line.trim().startsWith('-') ? (
-                                                                        <span className="flex items-start">
-                                                                            <span className="text-[#01FF00] mr-2">•</span>
-                                                                            {line.substring(1)}
-                                                                        </span>
-                                                                    ) : line}
-                                                                </p>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                );
-                                            }
-                                            return null;
-                                        })}
-                                    </div>
+                                        }
+                                        return null;
+                                    })}
                                 </div>
                                 <div className="mt-6 flex justify-end">
                                     <button
