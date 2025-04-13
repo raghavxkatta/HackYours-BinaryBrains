@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import PitchGenerator from "../components/PitchGenerator";
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import { FiCommand, FiCpu, FiClock, FiUsers, FiMessageSquare, FiZap, FiAlertTriangle, FiAward, FiClipboard, FiLayers } from 'react-icons/fi';
+import {
+    FiCommand, FiCpu, FiClock, FiUsers, FiMessageSquare,
+    FiZap, FiAlertTriangle, FiAward, FiClipboard, FiLayers
+} from 'react-icons/fi';
 import { saveIdea } from '../services/storageService';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
@@ -64,8 +67,8 @@ const IdeaGenerator = () => {
                     className="w-full flex items-center justify-between p-4 bg-black/50 border-x border-b border-[#01FF00]/20 hover:bg-[#01FF00]/5 transition-all duration-300"
                 >
                     <span className="text-[#01FF00]/80">View Details</span>
-                    {openSection === id ? 
-                        <FiChevronUp className="w-5 h-5 text-[#01FF00]" /> : 
+                    {openSection === id ?
+                        <FiChevronUp className="w-5 h-5 text-[#01FF00]" /> :
                         <FiChevronDown className="w-5 h-5 text-[#01FF00]" />
                     }
                 </button>
@@ -104,7 +107,26 @@ const IdeaGenerator = () => {
         try {
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-            const prompt = `Generate an innovative hackathon project idea with the following specifications. Make sure to include ALL sections in the exact format specified:
+            const creativeTwists = [
+                "Merge two totally unrelated domains like Fashion + Cybersecurity or Music + Blockchain.",
+                "Imagine the project will be judged by aliens. Make it weirdly impressive.",
+                "Make it impossible to build unless you break some convention.",
+                "Include something only a pirate, a monk, or a time traveler would use.",
+                "Make it solve a global issue in an unusual way, like solving water scarcity using NFTs.",
+                "The app should interact with nature in some physical or digital way.",
+                "Use retro or obsolete tech in a modern way (e.g., Floppy disks + AI).",
+                "Use a narrative-driven experience like a quest or story to complete tasks.",
+                "Blend AR with non-digital human traditions or folklore.",
+                "Design it for people in extreme or rare environments (e.g., underwater cities or Mars)."
+            ];
+
+            const twist = creativeTwists[Math.floor(Math.random() * creativeTwists.length)];
+
+            const prompt = `You are an AI idea strategist. Generate a **creative, unique, and never-before-seen** hackathon project idea using the following specifications.
+
+Make it stand out from typical projects like chat apps, weather dashboards, and fitness trackers. Avoid all clichés.
+
+👉 Creative Twist: ${twist}
 
 Theme: ${input.theme}
 Tech Stack: ${input.techStack}
@@ -112,7 +134,7 @@ Team Size: ${input.teamSize}
 Difficulty: ${input.difficulty}
 Duration: ${input.duration}
 
-Format your response EXACTLY as follows with all sections:
+Format your response EXACTLY as follows:
 
 🚀 PROJECT TITLE
 [Project Name]
@@ -156,7 +178,7 @@ Format your response EXACTLY as follows with all sections:
             const result = await model.generateContent({
                 contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
-                    temperature: 0.9,
+                    temperature: 1.2,
                     topK: 40,
                     topP: 0.95,
                     maxOutputTokens: 2048,
@@ -227,6 +249,7 @@ Format your response EXACTLY as follows with all sections:
                                 min="1"
                                 max="6"
                                 className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300 cursor-pointer"
+why is it not giving me unique projects 
                             />
                         </div>
 
