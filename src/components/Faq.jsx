@@ -7,24 +7,32 @@ const FAQ = () => {
 
     const faqs = [
         {
-            question: "How does the idea generator work?",
-            answer: "Our AI-powered generator analyzes your input parameters like theme, tech stack, and team size to create customized project ideas perfect for hackathons."
+            question: "How does the idea generation process work?",
+            answer: "Our AI analyzes your input parameters (theme, tech stack, team size) and uses the Gemini API to generate unique project ideas tailored to hackathons. Each idea comes with detailed features, architecture, and timeline."
         },
         {
-            question: "Is this service free to use?",
-            answer: "Yes, the basic idea generation service is completely free to use. We may introduce premium features in the future."
+            question: "What makes the pitch generator special?",
+            answer: "The pitch generator creates compelling presentations by understanding your project's core features. You can customize the tone (storytelling, formal, funny), duration, and language to match your presentation needs."
         },
         {
-            question: "Can I get multiple ideas for the same parameters?",
-            answer: "Absolutely! You can generate multiple different ideas with the same parameters to explore various possibilities."
+            question: "Can I save and manage multiple ideas?",
+            answer: "Yes! You can save both ideas and pitches to your account. Access them anytime from the My Ideas section, where you can view, copy, or delete them as needed."
         },
         {
-            question: "How detailed are the project ideas?",
-            answer: "Each idea includes a project title, description, key features, technical architecture, and implementation timeline breakdown."
+            question: "What kind of project details are included?",
+            answer: "Each generated idea includes: project title, overview, key features, technical architecture, implementation timeline, innovation factors, potential challenges, and winning potential analysis."
         },
         {
-            question: "Can I modify the generated ideas?",
-            answer: "Yes, the generated ideas are starting points. You're encouraged to modify and adapt them to better suit your team's needs."
+            question: "How customizable are the pitches?",
+            answer: "Highly customizable! Choose between different presentation styles, durations (30 seconds to 2 minutes), and languages. The pitch adapts to highlight your project's unique value proposition."
+        },
+        {
+            question: "Is there a limit to generating ideas or pitches?",
+            answer: "No limits! Generate as many ideas and pitches as you need. Each generation provides unique results, helping you explore different possibilities for your hackathon project."
+        },
+        {
+            question: "How does the implementation timeline work?",
+            answer: "We break down the project into practical phases, considering your team size and hackathon duration. This helps you stay organized and ensures efficient project completion within the deadline."
         }
     ];
 
@@ -32,7 +40,7 @@ const FAQ = () => {
         <section className="py-20 bg-black">
             <div className="max-w-3xl mx-auto px-6">
                 <h2 className="text-3xl font-bold text-center mb-12 text-[#01FF00]">
-                    Frequently Asked Questions
+                    Common Questions
                 </h2>
 
                 <div className="space-y-4">
