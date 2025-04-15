@@ -37,6 +37,15 @@ export default {
         'hero-gradient': 'linear-gradient(165deg, #0ea5e9 0%, #0284c7 100%)',
         'card-gradient': 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
       },
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        }
+      },
+      animation: {
+        slideIn: 'slideIn 0.3s ease-out forwards',
+      }
     },
   },
   plugins: [],

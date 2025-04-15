@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { FiChevronDown, FiChevronUp, FiTrash2, FiCopy } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp, FiTrash2, FiCopy, FiCheck } from 'react-icons/fi';
 import { getSavedIdeas, deleteIdea } from '../services/storageService';
+import Toast from '../components/Toast';
 
 const MyIdeas = () => {
     const [savedIdeas, setSavedIdeas] = useState([]);
     const [openIdea, setOpenIdea] = useState(null);
+    const [toast, setToast] = useState(null);
+    const [copiedId, setCopiedId] = useState(null);
 
     useEffect(() => {
         const ideas = getSavedIdeas();
@@ -15,18 +18,29 @@ const MyIdeas = () => {
         try {
             deleteIdea(ideaId);
             setSavedIdeas(ideas => ideas.filter(idea => idea.id !== ideaId));
+            setToast({ message: 'Idea deleted successfully', type: 'success' });
         } catch (error) {
             console.error('Error deleting idea:', error);
+            setToast({ message: 'Failed to delete idea', type: 'error' });
         }
     };
 
-    const handleCopyContent = (content) => {
+    const handleCopyContent = (id, content) => {
         navigator.clipboard.writeText(content);
-        alert('Copied to clipboard!');
+        setCopiedId(id);
+        setToast({ message: 'Copied to clipboard!', type: 'success' });
+        setTimeout(() => setCopiedId(null), 2000);
     };
 
     return (
         <div className="min-h-screen bg-black py-12">
+            {toast && (
+                <Toast 
+                    message={toast.message} 
+                    type={toast.type} 
+                    onClose={() => setToast(null)} 
+                />
+            )}
             <div className="max-w-4xl mx-auto px-6">
                 <h2 className="text-3xl font-bold text-[#01FF00] mb-8 cursor-default">My Saved Ideas</h2>
                 
@@ -57,10 +71,14 @@ const MyIdeas = () => {
                                         </div>
                                         <div className="flex gap-2">
                                             <button
-                                                onClick={() => handleCopyContent(item.idea)}
+                                                onClick={() => handleCopyContent(item.id, item.idea)}
                                                 className="p-2 text-[#01FF00] hover:bg-[#01FF00]/10 rounded-lg transition-colors cursor-pointer group"
                                             >
-                                                <FiCopy className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                                                {copiedId === item.id ? (
+                                                    <FiCheck className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                                                ) : (
+                                                    <FiCopy className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                                                )}
                                             </button>
                                             <button
                                                 onClick={() => handleDeleteIdea(item.id)}
@@ -88,10 +106,14 @@ const MyIdeas = () => {
                                                 <div className="flex justify-between items-start mb-3">
                                                     <h4 className="text-lg font-semibold text-[#01FF00] cursor-default">Project Idea</h4>
                                                     <button
-                                                        onClick={() => handleCopyContent(item.idea)}
+                                                        onClick={() => handleCopyContent(item.id, item.idea)}
                                                         className="p-1 text-[#01FF00] hover:bg-[#01FF00]/10 rounded-lg transition-colors cursor-pointer"
                                                     >
-                                                        <FiCopy className="w-4 h-4" />
+                                                        {copiedId === item.id ? (
+                                                            <FiCheck className="w-4 h-4" />
+                                                        ) : (
+                                                            <FiCopy className="w-4 h-4" />
+                                                        )}
                                                     </button>
                                                 </div>
                                                 <pre className="whitespace-pre-wrap text-white/90 font-mono text-sm cursor-text select-all">
@@ -104,10 +126,14 @@ const MyIdeas = () => {
                                                     <div className="flex justify-between items-start mb-3">
                                                         <h4 className="text-lg font-semibold text-[#01FF00] cursor-default">Project Pitch</h4>
                                                         <button
-                                                            onClick={() => handleCopyContent(item.pitch)}
+                                                            onClick={() => handleCopyContent(item.id, item.pitch)}
                                                             className="p-1 text-[#01FF00] hover:bg-[#01FF00]/10 rounded-lg transition-colors cursor-pointer"
                                                         >
-                                                            <FiCopy className="w-4 h-4" />
+                                                            {copiedId === item.id ? (
+                                                                <FiCheck className="w-4 h-4" />
+                                                            ) : (
+                                                                <FiCopy className="w-4 h-4" />
+                                                            )}
                                                         </button>
                                                     </div>
                                                     <pre className="whitespace-pre-wrap text-white/90 font-mono text-sm cursor-text select-all">

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { saveIdea } from '../services/storageService';
+import { FiCopy, FiCheck } from 'react-icons/fi';
+import Toast from './Toast';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
@@ -10,6 +12,9 @@ const PitchGenerator = ({ idea }) => {
     const [duration, setDuration] = useState("1 Minute");
     const [tone, setTone] = useState("Storytelling");
     const [language, setLanguage] = useState("English");
+    const [toast, setToast] = useState(null);
+    const [isCopied, setIsCopied] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
 
     const generatePitch = async () => {
         if (!idea) return;
@@ -59,17 +64,34 @@ Requirements:
     const handleSavePitch = () => {
         try {
             saveIdea(idea, pitch);
-            alert('Pitch saved successfully!');
+            setToast({ message: 'Pitch saved successfully! 🎉', type: 'success' });
+            setIsSaved(true);
+            setTimeout(() => setIsSaved(false), 2000);
         } catch (error) {
             console.error('Error saving pitch:', error);
-            alert('Failed to save pitch');
+            setToast({ message: 'Failed to save pitch', type: 'error' });
         }
+    };
+
+    const handleCopyPitch = () => {
+        navigator.clipboard.writeText(pitch);
+        setIsCopied(true);
+        setToast({ message: 'Copied to clipboard! 📋', type: 'success' });
+        setTimeout(() => setIsCopied(false), 2000);
     };
 
     if (!idea) return null;
 
     return (
         <div className="border-2 border-[#01FF00]/20 rounded-xl p-6 hover:border-[#01FF00]/40 transition-all duration-300">
+            {toast && (
+                <Toast 
+                    message={toast.message} 
+                    type={toast.type} 
+                    onClose={() => setToast(null)} 
+                />
+            )}
+
             <h3 className="text-xl font-bold text-[#01FF00] mb-6 cursor-default">🎤 Generate Project Pitch</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -127,15 +149,29 @@ Requirements:
                     <div className="mt-6 flex justify-end gap-4">
                         <button
                             onClick={handleSavePitch}
-                            className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer"
+                            className={`px-4 py-2 text-sm border rounded-lg transition-all duration-300 cursor-pointer ${
+                                isSaved 
+                                    ? 'bg-[#01FF00] text-black border-transparent' 
+                                    : 'text-[#01FF00] border-[#01FF00] hover:bg-[#01FF00]/10'
+                            }`}
                         >
-                            Save Pitch
+                            {isSaved ? '✓ Saved' : 'Save Pitch'}
                         </button>
                         <button
-                            onClick={() => navigator.clipboard.writeText(pitch)}
-                            className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer"
+                            onClick={handleCopyPitch}
+                            className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer flex items-center gap-2"
                         >
-                            Copy Pitch
+                            {isCopied ? (
+                                <>
+                                    <FiCheck className="w-4 h-4" />
+                                    <span>Copied!</span>
+                                </>
+                            ) : (
+                                <>
+                                    <FiCopy className="w-4 h-4" />
+                                    <span>Copy Pitch</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </div>

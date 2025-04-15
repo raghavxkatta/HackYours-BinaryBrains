@@ -77,45 +77,48 @@ const Navbar = () => {
                     {/* Mobile toggle button */}
                     {user && (
                         <button
-                            className="sm:hidden text-[#01FF00] text-2xl focus:outline-none"
+                            className="sm:hidden text-[#01FF00] text-2xl focus:outline-none transition-all duration-500 ease-in-out"
                             onClick={toggleMobileMenu}
                         >
-                            {mobileMenuOpen ? <FiX /> : <FiMenu />}
+                            {mobileMenuOpen ? 
+                                <FiX className="transform rotate-90 transition-all duration-500 ease-in-out" /> : 
+                                <FiMenu className="transform transition-all duration-500 ease-in-out hover:rotate-180" />
+                            }
                         </button>
                     )}
                 </div>
             </div>
 
             {/* Mobile dropdown menu */}
-{user && mobileMenuOpen && (
-    <div className="sm:hidden bg-black border-t border-[#01FF00]/20 px-4 py-4 space-y-3 shadow-md rounded-b-lg animate-fade-in-down">
-        <Link
-            to="/ideaGenerator"
-            onClick={toggleMobileMenu}
-            className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
-        >
-            🚀 Generate Ideas
-        </Link>
+            {user && (
+                <div className={`sm:hidden bg-black border-t border-[#01FF00]/20 px-4 py-4 space-y-3 shadow-md rounded-b-lg transition-all duration-500 ease-in-out transform ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+                    <Link
+                        to="/ideaGenerator"
+                        onClick={toggleMobileMenu}
+                        className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
+                    >
+                        🚀 Generate Ideas
+                    </Link>
 
-        <Link
-            to="/my-ideas"
-            onClick={toggleMobileMenu}
-            className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
-        >
-            📁 My Ideas
-        </Link>
+                    <Link
+                        to="/my-ideas"
+                        onClick={toggleMobileMenu}
+                        className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
+                    >
+                        📁 My Ideas
+                    </Link>
 
-        <button
-            onClick={() => {
-                toggleMobileMenu();
-                handleLogout();
-            }}
-            className="w-full text-left px-4 py-2 rounded-md border border-[#01FF00]/30 text-[#01FF00] bg-[#01FF00]/5 hover:bg-[#01FF00]/10 transition-all duration-200 font-medium"
-        >
-            🔒 Logout
-        </button>
-    </div>
-)}
+                    <button
+                        onClick={() => {
+                            toggleMobileMenu();
+                            handleLogout();
+                        }}
+                        className="w-full text-left px-4 py-2 rounded-md border border-[#01FF00]/30 text-[#01FF00] bg-[#01FF00]/5 hover:bg-[#01FF00]/10 transition-all duration-200 font-medium"
+                    >
+                        🔒 Logout
+                    </button>
+                </div>
+            )}
         </nav>
     );
 };

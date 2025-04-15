@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import PitchGenerator from "../components/PitchGenerator";
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp, FiCheck, FiCopy } from 'react-icons/fi';
 import {
     FiCommand, FiCpu, FiClock, FiUsers, FiMessageSquare,
     FiZap, FiAlertTriangle, FiAward, FiClipboard, FiLayers
 } from 'react-icons/fi';
 import { saveIdea } from '../services/storageService';
+import Toast from '../components/Toast';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
@@ -23,6 +24,9 @@ const IdeaGenerator = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [openSection, setOpenSection] = useState('');
+    const [toast, setToast] = useState(null);
+    const [isCopied, setIsCopied] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
 
     const handleChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -198,15 +202,31 @@ Format your response EXACTLY as follows:
     const handleSaveIdea = () => {
         try {
             saveIdea(idea);
-            alert('Idea saved successfully!');
+            setIsSaved(true);
+            setToast({ message: 'Idea saved successfully! 🎉', type: 'success' });
+            setTimeout(() => setIsSaved(false), 2000);
         } catch (error) {
             console.error('Error saving idea:', error);
-            alert('Failed to save idea');
+            setToast({ message: 'Failed to save idea', type: 'error' });
         }
+    };
+
+    const handleCopyIdea = () => {
+        navigator.clipboard.writeText(idea);
+        setIsCopied(true);
+        setToast({ message: 'Copied to clipboard! 📋', type: 'success' });
+        setTimeout(() => setIsCopied(false), 2000);
     };
 
     return (
         <div className="min-h-screen bg-black py-12">
+            {toast && (
+                <Toast 
+                    message={toast.message} 
+                    type={toast.type} 
+                    onClose={() => setToast(null)} 
+                />
+            )}
             <div className="max-w-4xl mx-auto px-6">
                 <div className="bg-black border-2 border-[#01FF00]/20 rounded-xl shadow-xl p-6">
                     <h2 className="text-2xl font-bold text-center mb-8 text-[#01FF00] cursor-default">
@@ -249,7 +269,6 @@ Format your response EXACTLY as follows:
                                 min="1"
                                 max="6"
                                 className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300 cursor-pointer"
-why is it not giving me unique projects 
                             />
                         </div>
 
@@ -355,15 +374,29 @@ why is it not giving me unique projects
                                 <div className="mt-6 flex justify-end gap-4">
                                     <button
                                         onClick={handleSaveIdea}
-                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer"
+                                        className={`px-4 py-2 text-sm border rounded-lg transition-all duration-300 cursor-pointer ${
+                                            isSaved 
+                                                ? 'bg-[#01FF00] text-black border-transparent' 
+                                                : 'text-[#01FF00] border-[#01FF00] hover:bg-[#01FF00]/10'
+                                        }`}
                                     >
-                                        Save Idea
+                                        {isSaved ? '✓ Saved' : 'Save Idea'}
                                     </button>
                                     <button
-                                        onClick={() => navigator.clipboard.writeText(idea)}
-                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer"
+                                        onClick={handleCopyIdea}
+                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer flex items-center gap-2"
                                     >
-                                        Copy Idea
+                                        {isCopied ? (
+                                            <>
+                                                <FiCheck className="w-4 h-4" />
+                                                <span>Copied!</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <FiCopy className="w-4 h-4" />
+                                                <span>Copy Idea</span>
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             </div>
