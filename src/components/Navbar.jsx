@@ -21,13 +21,13 @@ const Navbar = () => {
     return (
         <nav className="bg-black/90 backdrop-blur-md border-b border-[#01FF00]/20 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
+                <div className="flex justify-between items-center h-14 sm:h-16">
                     {/* Logo */}
                     <Link to="/" className="flex items-center">
                         <img
                             src={Logo}
                             alt="HackYours Logo"
-                            className={`h-10 mr-2 transition-all duration-300 ${user ? 'sm:h-10 h-8' : 'h-10'}`}
+                            className="h-8 sm:h-10 mr-2 transition-all duration-300"
                         />
                         <span className="text-2xl font-bold text-[#01FF00] hidden sm:inline">HackYours</span>
                     </Link>
@@ -97,7 +97,7 @@ const Navbar = () => {
 
             {/* Mobile dropdown menu */}
             {user && (
-                <div className={`sm:hidden bg-black border-t border-[#01FF00]/20 px-4 py-4 space-y-3 shadow-md rounded-b-lg transition-all duration-500 ease-in-out transform ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+                <div className={`sm:hidden bg-black border-t border-[#01FF00]/20 px-4 py-4 space-y-3 shadow-md rounded-b-lg transition-all duration-500 ease-in-out transform ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none hidden'}`}>
                     <Link
                         to="/ideaGenerator"
                         onClick={toggleMobileMenu}

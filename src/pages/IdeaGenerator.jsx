@@ -352,7 +352,7 @@ Format your response EXACTLY as follows:
                                 initial={{ opacity: 0, y: -20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
-                                className="fixed bottom-45 right-30 z-50 bg-black/80 backdrop-blur-sm px-4 py-3 rounded-lg border  shadow-lg shadow-[#01FF00]/10"
+                                className="fixed bottom-4 right-25 sm:bottom-45 sm:right-30  z-50 px-6 py-4 rounded-lg hover:border-[#01FF00]/40 transition-all duration-300"
                             >
                                 <motion.button
                                     onClick={scrollToPitch}
