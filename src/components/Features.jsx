@@ -13,6 +13,11 @@ const features = [
         description: "Projects optimized for your preferred stack",
     },
     {
+        icon: <FiMessageSquare className="w-6 h-6 md:w-8 md:h-8 hidden lg:block" />,
+        title: "Pitch Generator",
+        description: "AI-assisted presentation creation",
+    },
+    {
         icon: <FiZap className="w-6 h-6 md:w-8 md:h-8" />,
         title: "Innovation Analysis",
         description: "Assessment of uniqueness and impact",
@@ -26,11 +31,6 @@ const features = [
         icon: <FiClock className="w-6 h-6 md:w-8 md:h-8 hidden lg:block" />,
         title: "Time Management",
         description: "Efficient project timeline planning",
-    },
-    {
-        icon: <FiMessageSquare className="w-6 h-6 md:w-8 md:h-8 hidden lg:block" />,
-        title: "Pitch Generator",
-        description: "AI-assisted presentation creation",
     },
     {
         icon: <FiAlertTriangle className="w-6 h-6 md:w-8 md:h-8 hidden lg:block" />,

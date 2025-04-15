@@ -11,13 +11,13 @@ import { getDatabase, set, ref, get } from 'firebase/database';
 
 // Replace with your Firebase config
 const firebaseConfig = {
-    apiKey: "AIzaSyBorJMls3dr1_mupbEiy8AJd0mdcGKDnmI",
-    authDomain: "hackyours-9a1eb.firebaseapp.com",
-    projectId: "hackyours-9a1eb",
-    storageBucket: "hackyours-9a1eb.firebasestorage.app",
-    messagingSenderId: "469917558251",
-    appId: "1:469917558251:web:fa5470ce69d8fadb57e5ae",
-    measurementId: "G-JFXKJ4Z06X"
+    apiKey: "AIzaSyDfssm8H0Rpt7aYNX_irQczgDB0a_DXZGY",
+    authDomain: "hackyours-73415.firebaseapp.com",
+    projectId: "hackyours-73415",
+    storageBucket: "hackyours-73415.firebasestorage.app",
+    messagingSenderId: "353198376452",
+    appId: "1:353198376452:web:b35638e55eb0d4599f1751",
+    measurementId: "G-F92V300G5Y"
   };
   
 
