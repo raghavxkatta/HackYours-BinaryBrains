@@ -9,6 +9,7 @@ import MyIdeas from './pages/MyIdeas';
 import AuthGuard from './components/Auth.guard';
 import Footer from './components/Footer';
 import PitchGenerator from './pages/PitchGenerator';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             } />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/my-ideas" element={
               <AuthGuard>
                 <MyIdeas />

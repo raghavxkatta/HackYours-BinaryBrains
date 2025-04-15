@@ -1,6 +1,13 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    onAuthStateChanged,
+    sendPasswordResetEmail 
+} from 'firebase/auth';
 import { getDatabase, ref, set, get } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
 
@@ -68,12 +75,22 @@ export const FirebaseProvider = ({ children }) => {
         }
     };
 
+    const resetPassword = async (email) => {
+        try {
+            await sendPasswordResetEmail(auth, email);
+            return true;
+        } catch (error) {
+            throw error;
+        }
+    };
+
     return (
         <FirebaseContext.Provider value={{
             signupUserWithEmailAndPassword,
             loginWithEmailAndPassword,
             putData,
             logout,
+            resetPassword,
             user,
             loading
         }}>
