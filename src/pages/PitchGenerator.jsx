@@ -66,7 +66,7 @@ Requirements:
     const handleCopyPitch = () => {
         navigator.clipboard.writeText(pitch);
         setIsCopied(true);
-        setToast({ message: 'Copied to clipboard! 📋', type: 'success' });
+        setToast({ message: 'Copied to clipboard! ', type: 'success' });
         setTimeout(() => setIsCopied(false), 2000);
     };
 
@@ -140,7 +140,7 @@ Requirements:
                         disabled={loading}
                         className="w-full py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98]"
                     >
-                        {loading ? "Crafting Your Pitch..." : "Generate Custom Pitch 🎯"}
+                        {loading ? "Crafting Your Pitch..." : "Generate Custom Pitch "}
                     </button>
 
                     {loading && (
