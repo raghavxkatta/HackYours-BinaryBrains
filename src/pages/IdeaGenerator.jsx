@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import PitchGenerator from "../components/PitchGenerator";
 import { FiChevronDown, FiChevronUp, FiCheck, FiCopy } from 'react-icons/fi';
@@ -8,10 +8,14 @@ import {
 } from 'react-icons/fi';
 import { saveIdea } from '../services/storageService';
 import Toast from '../components/Toast';
+import { motion } from "framer-motion";
+import { FiArrowDown } from "react-icons/fi";
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 const IdeaGenerator = () => {
+    const pitchGeneratorRef = useRef(null);
+    const [isPitchVisible, setIsPitchVisible] = useState(false);
     const [input, setInput] = useState({
         theme: "",
         techStack: "",
@@ -97,6 +101,20 @@ const IdeaGenerator = () => {
             </div>
         );
     };
+
+    useEffect(() => {
+        if (!pitchGeneratorRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsPitchVisible(entry.isIntersecting);
+            },
+            { threshold: 0.1 }
+        );
+
+        observer.observe(pitchGeneratorRef.current);
+        return () => observer.disconnect();
+    }, [idea]);
 
     const generateIdea = async () => {
         if (!input.theme || !input.techStack || !input.teamSize) {
@@ -218,19 +236,23 @@ Format your response EXACTLY as follows:
         setTimeout(() => setIsCopied(false), 2000);
     };
 
+    const scrollToPitch = () => {
+        pitchGeneratorRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
         <div className="min-h-screen bg-black py-12">
             {toast && (
-                <Toast 
-                    message={toast.message} 
-                    type={toast.type} 
-                    onClose={() => setToast(null)} 
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
                 />
             )}
             <div className="max-w-4xl mx-auto px-6">
                 <div className="bg-black border-2 border-[#01FF00]/20 rounded-xl shadow-xl p-6">
                     <h2 className="text-2xl font-bold text-center mb-8 text-[#01FF00] cursor-default">
-                         Generate Your Hackathon Project
+                        Generate Your Hackathon Project
                     </h2>
 
                     <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
@@ -245,7 +267,7 @@ Format your response EXACTLY as follows:
                                 className="w-full p-3 bg-black border-2 border-[#01FF00]/40 rounded-lg focus:border-[#01FF00] text-white placeholder-[#01FF00]/50 hover:border-[#01FF00]/60 focus:ring-1 focus:ring-[#01FF00] transition-all duration-300 cursor-text"
                             />
                         </div>
-                        
+
                         <div className="group">
                             <label className="block text-[#01FF00] text-sm font-medium mb-2 cursor-default group-hover:translate-x-1 transition-transform duration-300">Tech Stack*</label>
                             <input
@@ -308,21 +330,49 @@ Format your response EXACTLY as follows:
                         </div>
                     )}
 
-                    <button
-                        onClick={generateIdea}
-                        disabled={loading}
-                        className="w-full mt-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                    >
-                        {loading ? (
-                            <span className="flex items-center justify-center cursor-wait">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Generating Your Project Idea...
-                            </span>
-                        ) : "Generate Project Idea "}
-                    </button>
+                    <div className="relative">
+                        <button
+                            onClick={generateIdea}
+                            disabled={loading}
+                            className="w-full mt-8 py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                        >
+                            {loading ? (
+                                <span className="flex items-center justify-center cursor-wait">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Generating Your Project Idea...
+                                </span>
+                            ) : "Generate Project Idea "}
+                        </button>
+
+                        {idea && !loading && !isPitchVisible && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 20 }}
+                                className="fixed bottom-45 right-30 z-50 bg-black/80 backdrop-blur-sm px-4 py-3 rounded-lg border  shadow-lg shadow-[#01FF00]/10"
+                            >
+                                <motion.button
+                                    onClick={scrollToPitch}
+                                    animate={{
+                                        y: [0, 10, 0],
+                                        opacity: [1, 0.6, 1]
+                                    }}
+                                    transition={{
+                                        duration: 1.2,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                    className="flex items-center gap-3 text-[#01FF00] hover:text-[#01FF00] group"
+                                >
+                                    <FiArrowDown className="w-6 h-6 group-hover:scale-110 cursor-pointer transition-transform" />
+                                    <span className="cursor-pointer whitespace-nowrap text-lg font-medium">Generate Pitch</span>
+                                </motion.button>
+                            </motion.div>
+                        )}
+                    </div>
 
                     {loading && (
                         <div className="mt-8 text-center cursor-wait">
@@ -332,77 +382,80 @@ Format your response EXACTLY as follows:
                     )}
 
                     {idea && !loading && (
-                        <div className="mt-8">
-                            <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg hover:border-[#01FF00]/60 transition-all duration-300">
-                                <h3 className="text-xl font-semibold mb-6 text-[#01FF00] cursor-default">Your Generated Project Idea:</h3>
-                                <div className="space-y-4">
-                                    {idea.split('\n\n').map((section, index) => {
-                                        if (section.startsWith('🚀 PROJECT TITLE')) {
-                                            const title = section.split('\n')[1];
-                                            return (
-                                                <div key="title" className="bg-[#01FF00]/5 p-4 rounded-lg border border-[#01FF00]/20">
-                                                    <h2 className="text-2xl font-bold text-[#01FF00]">{title}</h2>
-                                                </div>
-                                            );
-                                        }
-
-                                        const sections = {
-                                            'overview': '📝 PROJECT OVERVIEW',
-                                            'features': '🎯 KEY FEATURES',
-                                            'tech': '🛠️ TECHNICAL ARCHITECTURE',
-                                            'timeline': '⏱️ IMPLEMENTATION TIMELINE',
-                                            'innovation': '💡 INNOVATION FACTORS',
-                                            'challenges': '⚠️ POTENTIAL CHALLENGES',
-                                            'winning': '🌟 WINNING POTENTIAL'
-                                        };
-
-                                        for (const [key, header] of Object.entries(sections)) {
-                                            if (section.includes(header)) {
-                                                const [_, ...content] = section.split('\n');
+                        <>
+                            <div className="mt-8">
+                                <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg hover:border-[#01FF00]/60 transition-all duration-300">
+                                    <h3 className="text-xl font-semibold mb-6 text-[#01FF00] cursor-default">Your Generated Project Idea:</h3>
+                                    <div className="space-y-4">
+                                        {idea.split('\n\n').map((section, index) => {
+                                            if (section.startsWith('🚀 PROJECT TITLE')) {
+                                                const title = section.split('\n')[1];
                                                 return (
-                                                    <Section
-                                                        key={key}
-                                                        id={key}
-                                                        content={content}
-                                                    />
+                                                    <div key="title" className="bg-[#01FF00]/5 p-4 rounded-lg border border-[#01FF00]/20">
+                                                        <h2 className="text-2xl font-bold text-[#01FF00]">{title}</h2>
+                                                    </div>
                                                 );
                                             }
-                                        }
-                                        return null;
-                                    })}
-                                </div>
-                                <div className="mt-6 flex justify-end gap-4">
-                                    <button
-                                        onClick={handleSaveIdea}
-                                        className={`px-4 py-2 text-sm border rounded-lg transition-all duration-300 cursor-pointer ${
-                                            isSaved 
-                                                ? 'bg-[#01FF00] text-black border-transparent' 
-                                                : 'text-[#01FF00] border-[#01FF00] hover:bg-[#01FF00]/10'
-                                        }`}
-                                    >
-                                        {isSaved ? '✓ Saved' : 'Save Idea'}
-                                    </button>
-                                    <button
-                                        onClick={handleCopyIdea}
-                                        className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer flex items-center gap-2"
-                                    >
-                                        {isCopied ? (
-                                            <>
-                                                <FiCheck className="w-4 h-4" />
-                                                <span>Copied!</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <FiCopy className="w-4 h-4" />
-                                                <span>Copy Idea</span>
-                                            </>
-                                        )}
-                                    </button>
+
+                                            const sections = {
+                                                'overview': '📝 PROJECT OVERVIEW',
+                                                'features': '🎯 KEY FEATURES',
+                                                'tech': '🛠️ TECHNICAL ARCHITECTURE',
+                                                'timeline': '⏱️ IMPLEMENTATION TIMELINE',
+                                                'innovation': '💡 INNOVATION FACTORS',
+                                                'challenges': '⚠️ POTENTIAL CHALLENGES',
+                                                'winning': '🌟 WINNING POTENTIAL'
+                                            };
+
+                                            for (const [key, header] of Object.entries(sections)) {
+                                                if (section.includes(header)) {
+                                                    const [_, ...content] = section.split('\n');
+                                                    return (
+                                                        <Section
+                                                            key={key}
+                                                            id={key}
+                                                            content={content}
+                                                        />
+                                                    );
+                                                }
+                                            }
+                                            return null;
+                                        })}
+                                    </div>
+                                    <div className="mt-6 flex justify-end gap-4">
+                                        <button
+                                            onClick={handleSaveIdea}
+                                            className={`px-4 py-2 text-sm border rounded-lg transition-all duration-300 cursor-pointer ${isSaved
+                                                    ? 'bg-[#01FF00] text-black border-transparent'
+                                                    : 'text-[#01FF00] border-[#01FF00] hover:bg-[#01FF00]/10'
+                                                }`}
+                                        >
+                                            {isSaved ? '✓ Saved' : 'Save Idea'}
+                                        </button>
+                                        <button
+                                            onClick={handleCopyIdea}
+                                            className="px-4 py-2 text-sm text-[#01FF00] border border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 cursor-pointer flex items-center gap-2"
+                                        >
+                                            {isCopied ? (
+                                                <>
+                                                    <FiCheck className="w-4 h-4" />
+                                                    <span>Copied!</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <FiCopy className="w-4 h-4" />
+                                                    <span>Copy Idea</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <PitchGenerator idea={idea} />
-                        </div>
+                            <div ref={pitchGeneratorRef}>
+                                <PitchGenerator idea={idea} />
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

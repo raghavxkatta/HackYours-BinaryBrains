@@ -43,6 +43,12 @@ const Navbar = () => {
                                     Generate Ideas
                                 </Link>
                                 <Link
+                                    to="/pitchGenerator"
+                                    className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300 cursor-pointer hover:scale-105"
+                                >
+                                    Generate Pitch
+                                </Link>
+                                <Link
                                     to="/my-ideas"
                                     className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300 flex items-center gap-2 cursor-pointer hover:scale-105"
                                 >
@@ -98,6 +104,14 @@ const Navbar = () => {
                         className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
                     >
                         🚀 Generate Ideas
+                    </Link>
+
+                    <Link
+                        to="/pitchGenerator"
+                        onClick={toggleMobileMenu}
+                        className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 font-medium"
+                    >
+                        🎤 Generate Pitch
                     </Link>
 
                     <Link

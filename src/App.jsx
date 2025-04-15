@@ -8,7 +8,7 @@ import Signup from './pages/Signup';
 import MyIdeas from './pages/MyIdeas';
 import AuthGuard from './components/Auth.guard';
 import Footer from './components/Footer';
-import PitchGenerator from './components/PitchGenerator';
+import PitchGenerator from './pages/PitchGenerator';
 
 function App() {
   return (
