@@ -1,15 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from 'firebase/auth';
-import { getDatabase, set, ref, get } from 'firebase/database';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { getDatabase, ref, set, get } from 'firebase/database';
+import { useNavigate } from 'react-router-dom';
 
-// Replace with your Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyDfssm8H0Rpt7aYNX_irQczgDB0a_DXZGY",
     authDomain: "hackyours-73415.firebaseapp.com",
@@ -18,96 +12,72 @@ const firebaseConfig = {
     messagingSenderId: "353198376452",
     appId: "1:353198376452:web:b35638e55eb0d4599f1751",
     measurementId: "G-F92V300G5Y"
-  };
-  
+};
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
 const FirebaseContext = createContext(null);
 
+export const useFirebase = () => useContext(FirebaseContext);
+
 export const FirebaseProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+            setLoading(false);
+        });
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
+        return () => unsubscribe();
+    }, []);
 
-  const signupUserWithEmailAndPassword = async (email, password) => {
-    try {
-      return await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      throw error;
-    }
-  };
+    const signupUserWithEmailAndPassword = async (email, password) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            return userCredential;
+        } catch (error) {
+            throw error;
+        }
+    };
 
-  const loginWithEmailAndPassword = async (email, password) => {
-    try {
-      return await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      throw error;
-    }
-  };
+    const putData = async (key, data) => {
+        try {
+            await set(ref(database, key), data);
+        } catch (error) {
+            throw error;
+        }
+    };
 
-  const logout = async () => {
-    try {
-      await signOut(auth);
-      return true;
-    } catch (error) {
-      throw error;
-    }
-  };
+    const loginWithEmailAndPassword = async (email, password) => {
+        try {
+            return await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            throw error;
+        }
+    };
 
-  const putData = async (path, data) => {
-    try {
-      await set(ref(database, path), data);
-      return true;
-    } catch (error) {
-      throw error;
-    }
-  };
-  
-  const getData = async (path) => {
-    try {
-      const snapshot = await get(ref(database, path));
-      return snapshot.exists() ? snapshot.val() : null;
-    } catch (error) {
-      throw error;
-    }
-  };
+    const logout = async () => {
+        try {
+            await signOut(auth);
+        } catch (error) {
+            throw error;
+        }
+    };
 
-  const value = {
-    user,
-    loading,
-    signupUserWithEmailAndPassword,
-    loginWithEmailAndPassword,
-    logout,
-    putData,
-    getData,
-    auth,
-    database
-  };
-
-  return (
-    <FirebaseContext.Provider value={value}>
-      {children}
-    </FirebaseContext.Provider>
-  );
-};
-
-export const useFirebase = () => {
-  const context = useContext(FirebaseContext);
-  if (context === null) {
-    throw new Error('useFirebase must be used within a FirebaseProvider');
-  }
-  return context;
+    return (
+        <FirebaseContext.Provider value={{
+            signupUserWithEmailAndPassword,
+            loginWithEmailAndPassword,
+            putData,
+            logout,
+            user,
+            loading
+        }}>
+            {children}
+        </FirebaseContext.Provider>
+    );
 };

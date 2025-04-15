@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
@@ -11,7 +11,13 @@ const Login = () => {
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false); // 👁️ New state
     const navigate = useNavigate();
-    const { loginWithEmailAndPassword } = useFirebase();
+    const { loginWithEmailAndPassword, user } = useFirebase();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/', { replace: true });
+        }
+    }, [user, navigate]);
 
     const handleChange = (e) => {
         setFormData({
@@ -26,9 +32,8 @@ const Login = () => {
 
         try {
             await loginWithEmailAndPassword(formData.email, formData.password);
-            navigate('/ideaGenerator');
         } catch (err) {
-            setError(err.message);
+            setError('Invalid email or password');
         }
     };
 
@@ -41,7 +46,7 @@ const Login = () => {
                     </h2>
                     <p className="mt-2 text-center text-sm text-white/60">
                         Or{' '}
-                        <Link to="/signup" className="text-[#01FF00] hover:text-[#01FF00]/80">
+                        <Link to="/signup" className="text-[#01FF00] hover:text-[#01FF00]/80 cursor-pointer">
                             create a new account
                         </Link>
                     </p>
@@ -64,7 +69,7 @@ const Login = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300"
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300 cursor-text"
                                 placeholder="Email address"
                             />
                         </div>
@@ -78,13 +83,13 @@ const Login = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="appearance-none rounded-lg relative block w-full px-3 py-2 pr-10 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300"
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 pr-10 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00] focus:ring-1 focus:ring-[#01FF00] hover:border-[#01FF00]/60 transition-all duration-300 cursor-text"
                                 placeholder="Password"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(prev => !prev)}
-                                className="absolute inset-y-0 right-3 flex items-center text-[#01FF00]/70 hover:text-[#01FF00] focus:outline-none"
+                                className="absolute inset-y-0 right-3 flex items-center text-[#01FF00]/70 hover:text-[#01FF00] focus:outline-none cursor-pointer"
                                 tabIndex={-1}
                             >
                                 {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
@@ -106,7 +111,7 @@ const Login = () => {
                         </div>
 
                         <div className="text-sm">
-                            <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80 transition-colors hover:underline">
+                            <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80 transition-colors hover:underline cursor-pointer">
                                 Forgot password?
                             </a>
                         </div>
@@ -115,7 +120,7 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 border-2 border-transparent rounded-lg text-black bg-[#01FF00] hover:bg-[#01FF00]/90 focus:outline-none transition-all duration-300 hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98]"
+                            className="group relative w-full flex justify-center py-3 px-4 border-2 border-transparent rounded-lg text-black bg-[#01FF00] hover:bg-[#01FF00]/90 focus:outline-none transition-all duration-300 hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                         >
                             Sign in
                         </button>

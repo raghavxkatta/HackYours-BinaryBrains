@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
@@ -16,7 +16,13 @@ const Signup = () => {
 
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { signupUserWithEmailAndPassword, putData } = useFirebase();
+    const { signupUserWithEmailAndPassword, putData, user } = useFirebase();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/', { replace: true });
+        }
+    }, [user, navigate]);
 
     const handleChange = (e) => {
         setFormData({
@@ -42,9 +48,12 @@ const Signup = () => {
                 email: formData.email,
                 createdAt: new Date().toISOString()
             });
-            navigate('/ideaGenerator');
         } catch (err) {
-            setError(err.message);
+            if (err.code === 'auth/email-already-in-use') {
+                setError('Email is already registered');
+            } else {
+                setError('Failed to create account. Please try again.');
+            }
         }
     };
 
@@ -57,7 +66,7 @@ const Signup = () => {
                     </h2>
                     <p className="mt-2 text-center text-sm text-white/60">
                         Already have an account?{' '}
-                        <Link to="/login" className="text-[#01FF00] hover:text-[#01FF00]/80">
+                        <Link to="/login" className="text-[#01FF00] hover:text-[#01FF00]/80 cursor-pointer">
                             Sign in
                         </Link>
                     </p>
@@ -149,7 +158,7 @@ const Signup = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border-2 border-transparent rounded-lg text-black bg-[#01FF00] hover:opacity-90 focus:outline-none transition-all duration-300"
+                            className="group relative w-full flex justify-center py-3 px-4 border-2 border-transparent rounded-lg text-black bg-[#01FF00] hover:bg-[#01FF00]/90 focus:outline-none transition-all duration-300 hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                         >
                             Create Account
                         </button>
@@ -157,9 +166,9 @@ const Signup = () => {
 
                     <div className="text-center text-sm text-white/60">
                         By signing up, you agree to our{' '}
-                        <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80">Terms</a>
+                        <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80 cursor-pointer">Terms</a>
                         {' '}and{' '}
-                        <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80">Privacy Policy</a>
+                        <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80 cursor-pointer">Privacy Policy</a>
                     </div>
                 </form>
             </div>
