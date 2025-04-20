@@ -18,9 +18,9 @@ const features = [
         description: "AI-assisted presentation creation",
     },
     {
-        icon: <FiZap className="w-6 h-6 md:w-8 md:h-8" />,
-        title: "Innovation Analysis",
-        description: "Assessment of uniqueness and impact",
+        icon: <FiCommand className="w-6 h-6 md:w-8 md:h-8" />,
+        title: "Prompt Generator",
+        description: "Generate precise LLM prompts to recreate the AI-powered project idea accurately",
     },
     {
         icon: <FiTarget className="w-6 h-6 md:w-8 md:h-8" />,
