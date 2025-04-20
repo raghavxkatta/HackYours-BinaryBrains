@@ -18,9 +18,9 @@ const features = [
         description: "AI-assisted presentation creation",
     },
     {
-        icon: <FiCpu className="w-6 h-6 md:w-8 md:h-8" />,
-        title: "Tech Stack Focus",
-        description: "Projects optimized for your preferred stack",
+        icon: <FiZap className="w-6 h-6 md:w-8 md:h-8" />,
+        title: "Innovation Analysis",
+        description: "Assessment of uniqueness and impact",
     },
     {
         icon: <FiTarget className="w-6 h-6 md:w-8 md:h-8" />,
