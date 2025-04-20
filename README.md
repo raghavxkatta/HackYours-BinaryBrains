@@ -1,20 +1,37 @@
-README.md
-md
-Copy
-Edit
-# 🚀 Binary Brains - AI-Powered Hackathon Companion
 
-Hackstreet is a powerful AI-driven tool designed to help developers, students, and innovators instantly generate hackathon project ideas and structured implementation roadmaps using Google's Gemini API. Whether you're building solo or with a team, Hackstreet gives you a creative headstart.
+   # 🚀 HackYours - AI-Powered Hackathon Companion
+
+HackYours is your ultimate hackathon assistant — an AI-powered platform that helps developers, students, and innovators ideate, pitch, and plan hackathon-ready projects in minutes. Built during a hackathon by Team Binary Brains, this tool streamlines your journey from *"What should we build?"* to *"Let’s ship it!"* — with the help of Google’s Gemini AI.
 
 ---
 
 ## 🌟 Features
 
-- 🎯 **AI-Generated Project Ideas** based on theme, tech stack, team size, and difficulty
-- 🛣️ **Custom Roadmap Generator** with detailed development phases
-- 🧠 Powered by **Google Gemini 1.5 Flash**
-- 💡 User-friendly UI with futuristic vibes
-- 🧩 Built with React, Tailwind CSS, and Vite
+- 💡 **AI Project Idea Generator** — Based on domain, tech stack, team size & difficulty
+- 🧠 **Prompt Generator** — One-click prompt to rebuild the entire project via LLMs like Gemini or ChatGPT
+- 🎤 **Pitch Generator** — Customizable pitch with tone, language, and duration control
+- 💾 **Save Ideas & Prompts** — Store your ideas with implementation roadmap and prompt
+- 🖼️ **Responsive UI** — Sleek, dark-mode-friendly interface with smooth Framer Motion animations
+
+---
+
+## 🔥 Live Demo
+
+🌐 **Try it now** → [hackyours.raghavkatta.xyz](https://hackyours.raghavkatta.xyz)  
+💻 **GitHub Repo** → [github.com/raghavxkatta/HackYours-BinaryBrains](https://github.com/raghavxkatta/HackYours-BinaryBrains)
+
+---
+
+## 🛠️ Tech Stack
+
+| Tech          | Usage                         |
+|---------------|-------------------------------|
+| React.js      | Frontend framework            |
+| Tailwind CSS  | UI styling                    |
+| Framer Motion | Animations                    |
+| Vite          | Build tool                    |
+| Gemini 1.5 API| Project idea & prompt generation |
+| Context API   | Global state management       |
 
 ---
 
@@ -24,61 +41,48 @@ Hackstreet is a powerful AI-driven tool designed to help developers, students, a
 ![alt text](image-1.png)
 ![alt text](image-2.png)
 
-- `src/pages/IdeaGenerator.jsx`
-- `src/pages/RoadmapGenerator.jsx`
 
----
+## ⚙️ Getting Started
 
-## 🛠️ Tech Stack
-
-| Frontend | Backend/API | Styling | AI |
-|----------|-------------|---------|----|
-| React    | Gemini API  | Tailwind CSS | Google Generative AI (gemini-1.5-flash) |
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the repo
+### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/raghavxkatta/Hackstreet-2.git
-cd Hackstreet-2
-2. Install dependencies
+git clone https://github.com/raghavxkatta/HackYours-BinaryBrains.git
+cd HackYours-BinaryBrains
+2. Install Dependencies
 bash
 Copy
 Edit
 npm install
-3. Set up your Gemini API Key
-Create a .env file in the root directory:
+3. Set Up API Key
+Create a .env file in the root:
 
 env
 Copy
 Edit
-VITE_GEMINI_API_KEY=your_api_key_here
-You can get your API key from: https://makersuite.google.com/app/apikey
+VITE_GEMINI_API_KEY=your_gemini_api_key
+Get your key from: https://makersuite.google.com/app/apikey
 
-4. Run the development server
+4. Run the App
 bash
 Copy
 Edit
 npm run dev
-🧠 How It Works
-Enter your theme, tech stack, team size, and experience level.
-
-Click Generate Project Idea — powered by Gemini API.
-
-Once the idea is generated, click Generate Roadmap to get a 5-phase execution plan.
-
-📁 Folder Structure
+🧩 Folder Structure
 css
 Copy
 Edit
 src/
 ├── components/
-│   └── RoadmapGenerator.jsx
+│   ├── PitchGenerator.jsx
+│   ├── PromptGenerator.jsx
+│   └── Toast.jsx
 ├── pages/
 │   └── IdeaGenerator.jsx
+├── services/
+│   └── storageService.js
+├── utils/
+│   └── generatefromGemini.js
 ├── App.jsx
 ├── main.jsx
 
@@ -86,13 +90,9 @@ src/
 @raghavxkatta
 @JustPratiyush
 @rainyyyyshrrr12
+@diyashuklaa
 
-📜 License
-This project is open-source and available under the MIT License.
 
-🙌 Acknowledgements
-Google Gemini API
 
-React + Vite + Tailwind
 
-Built during Hackstreet Hackathon 💻🔥
+Built during Hackstreet Hackathon By Team Binary Brains 💻🔥
