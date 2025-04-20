@@ -10,6 +10,7 @@ import { saveIdea } from '../services/storageService';
 import Toast from '../components/Toast';
 import { motion } from "framer-motion";
 import { FiArrowDown } from "react-icons/fi";
+import PromptGenerator from "../components/PromptGenerator"; // add this
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
@@ -41,49 +42,51 @@ const IdeaGenerator = () => {
         setOpenSection(openSection === sectionId ? '' : sectionId);
     };
 
-    const Section = ({ id, title, content }) => {
-        const icons = {
-            'overview': <FiClipboard className="w-5 h-5" />,
-            'features': <FiLayers className="w-5 h-5" />,
-            'tech': <FiCpu className="w-5 h-5" />,
-            'timeline': <FiClock className="w-5 h-5" />,
-            'innovation': <FiZap className="w-5 h-5" />,
-            'challenges': <FiAlertTriangle className="w-5 h-5" />,
-            'winning': <FiAward className="w-5 h-5" />
-        };
+    const sectionTitles = {
+        'overview': 'Project Overview',
+        'features': 'Key Features',
+        'tech': 'Technical Architecture',
+        'timeline': 'Implementation Timeline',
+        'innovation': 'Innovation Factors',
+        'challenges': 'Potential Challenges',
+        'winning': 'Winning Potential',
+        'prompt': 'Prompt to Build Entire Project' // ✅ Added Prompt Section Title
+    };
 
-        const sectionTitles = {
-            'overview': 'Project Overview',
-            'features': 'Key Features',
-            'tech': 'Technical Architecture',
-            'timeline': 'Implementation Timeline',
-            'innovation': 'Innovation Factors',
-            'challenges': 'Potential Challenges',
-            'winning': 'Winning Potential'
-        };
+    const icons = {
+        'overview': <FiClipboard className="w-5 h-5" />,
+        'features': <FiLayers className="w-5 h-5" />,
+        'tech': <FiCpu className="w-5 h-5" />,
+        'timeline': <FiClock className="w-5 h-5" />,
+        'innovation': <FiZap className="w-5 h-5" />,
+        'challenges': <FiAlertTriangle className="w-5 h-5" />,
+        'winning': <FiAward className="w-5 h-5" />,
+        'prompt': <FiCommand className="w-5 h-5" />
+    };
 
-        return (
-            <div className="mb-4">
-                <div className="bg-[#01FF00]/5 p-4 rounded-t-lg border border-[#01FF00]/20">
-                    <div className="flex items-center gap-3">
-                        <span className="text-[#01FF00]">{icons[id]}</span>
-                        <h3 className="text-xl font-semibold text-[#01FF00]">{sectionTitles[id]}</h3>
-                    </div>
+    const Section = ({ id, content }) => (
+        <div className="mb-4">
+            <div className="bg-[#01FF00]/5 p-4 rounded-t-lg border border-[#01FF00]/20">
+                <div className="flex items-center gap-3">
+                    <span className="text-[#01FF00]">{icons[id]}</span>
+                    <h3 className="text-xl font-semibold text-[#01FF00]">{sectionTitles[id]}</h3>
                 </div>
-                <button
-                    onClick={() => toggleSection(id)}
-                    className="w-full flex items-center justify-between p-4 bg-black/50 border-x border-b border-[#01FF00]/20 hover:bg-[#01FF00]/5 transition-all duration-300"
-                >
-                    <span className="text-[#01FF00]/80">View Details</span>
-                    {openSection === id ?
-                        <FiChevronUp className="w-5 h-5 text-[#01FF00]" /> :
-                        <FiChevronDown className="w-5 h-5 text-[#01FF00]" />
-                    }
-                </button>
-                {openSection === id && (
-                    <div className="mt-2 p-4 bg-black/30 border border-[#01FF00]/20 rounded-lg">
-                        <div className="prose prose-invert max-w-none">
-                            {Array.isArray(content) ? (
+            </div>
+            <button
+                onClick={() => toggleSection(id)}
+                className="w-full flex items-center justify-between p-4 bg-black/50 border-x border-b border-[#01FF00]/20 hover:bg-[#01FF00]/5 transition-all duration-300"
+            >
+                <span className="text-[#01FF00]/80">View Details</span>
+                {openSection === id ?
+                    <FiChevronUp className="w-5 h-5 text-[#01FF00]" /> :
+                    <FiChevronDown className="w-5 h-5 text-[#01FF00]" />
+                }
+            </button>
+            {openSection === id && (
+                <div className="mt-2 p-4 bg-black/30 border border-[#01FF00]/20 rounded-lg">
+                    <div className="prose prose-invert max-w-none">
+                        {id === 'prompt' ? <PromptGenerator idea={idea} /> : (
+                            Array.isArray(content) ? (
                                 <div className="space-y-2">
                                     {content.map((item, i) => (
                                         <div key={i} className="flex items-start">
@@ -94,13 +97,13 @@ const IdeaGenerator = () => {
                                 </div>
                             ) : (
                                 <p className="text-white/90">{content}</p>
-                            )}
-                        </div>
+                            )
+                        )}
                     </div>
-                )}
-            </div>
-        );
-    };
+                </div>
+            )}
+        </div>
+    );
 
     useEffect(() => {
         if (!pitchGeneratorRef.current) return;
@@ -404,7 +407,8 @@ Format your response EXACTLY as follows:
                                                 'timeline': '⏱️ IMPLEMENTATION TIMELINE',
                                                 'innovation': '💡 INNOVATION FACTORS',
                                                 'challenges': '⚠️ POTENTIAL CHALLENGES',
-                                                'winning': '🌟 WINNING POTENTIAL'
+                                                'winning': '🌟 WINNING POTENTIAL',
+                                                'prompt': 'Prompt to Build Entire Project'
                                             };
 
                                             for (const [key, header] of Object.entries(sections)) {
@@ -451,10 +455,14 @@ Format your response EXACTLY as follows:
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div ref={pitchGeneratorRef}>
-                                <PitchGenerator idea={idea} />
-                            </div>
+                            {idea && !loading && (
+                                <>
+                                    <PromptGenerator idea={idea} />
+                                    <div ref={pitchGeneratorRef}>
+                                        <PitchGenerator idea={idea} />
+                                    </div>
+                                </>
+                            )}
                         </>
                     )}
                 </div>

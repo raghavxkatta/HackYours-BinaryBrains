@@ -79,7 +79,7 @@ Requirements:
                 />
             )}
 
-            <h2 className="text-2xl font-bold text-[#01FF00] mb-8">🎤 Generate Project Pitch</h2>
+            <h2 className="text-2xl font-bold text-[#01FF00] mb-8"> Generate Project Pitch</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
@@ -128,7 +128,7 @@ Requirements:
                 disabled={loading}
                 className="w-full py-4 bg-[#01FF00] text-black font-bold rounded-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-[#01FF00]/20 transform hover:scale-[1.02] active:scale-[0.98]"
             >
-                {loading ? "Crafting Your Pitch..." : "Generate Custom Pitch 🎯"}
+                {loading ? "Crafting Your Pitch..." : "Generate Custom Pitch "}
             </button>
 
             {loading && (
