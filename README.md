@@ -2,7 +2,7 @@ README.md
 md
 Copy
 Edit
-# 🚀 Hackstreet - AI-Powered Hackathon Companion
+# 🚀 Binary Brains - AI-Powered Hackathon Companion
 
 Hackstreet is a powerful AI-driven tool designed to help developers, students, and innovators instantly generate hackathon project ideas and structured implementation roadmaps using Google's Gemini API. Whether you're building solo or with a team, Hackstreet gives you a creative headstart.
 
