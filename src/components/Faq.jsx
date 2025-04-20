@@ -19,6 +19,11 @@ const FAQ = () => {
             answer: "Yes! You can save both ideas and pitches to your account. Access them anytime from the My Ideas section, where you can view, copy, or delete them as needed."
         },
         {
+            question: "What is Build Prompt?",
+            answer: "Build Prompt is a feature that generates precise prompts for Large Language Models (LLMs). These prompts are designed to recreate the AI-powered project idea accurately, including file structures, components, API routes, and database schemas. You can use the generated prompt to guide your development process or share it with your team for implementation."
+        },
+         {
+    
             question: "What kind of project details are included?",
             answer: "Each generated idea includes: project title, overview, key features, technical architecture, implementation timeline, innovation factors, potential challenges, and winning potential analysis."
         },

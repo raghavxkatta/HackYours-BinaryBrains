@@ -30,7 +30,7 @@ The output should be accurate enough to recreate the project completely.`;
             <div className="p-6 bg-black border-2 border-[#01FF00]/40 rounded-lg hover:border-[#01FF00]/60 hover:shadow-[0_0_15px_#01FF00] transition-all duration-300">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-xl font-semibold text-[#01FF00] cursor-default">
-                        🧠 Build Prompt for LLMs
+                        🧠 Build Prompt for GPT
                     </h3>
                     <button
                         onClick={handleCopy}
