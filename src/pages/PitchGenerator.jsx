@@ -84,7 +84,7 @@ Requirements:
                     <h2 className="text-2xl font-bold text-[#01FF00] mb-8"> Generate Project Pitch</h2>
 
                     <div className="mb-6">
-                        <label className="block text-[#01FF00] text-sm font-medium mb-2">Your Project Idea*</label>
+                        <label className="block text-[#01FF00] text-lg font-medium mb-2">Your Project Idea*</label>
                         <textarea
                             value={idea}
                             onChange={(e) => setIdea(e.target.value)}
