@@ -22,9 +22,15 @@ const Hero = () => {
                             className="text-5xl lg:text-6xl font-bold"
                         >
                             <span className="text-white">Generate Your Next</span>
-                            <span className="block text-[#01FF00] mt-2">
+                            <span
+                                className="block animate-pulse text-[#01FF00] mt-2 font-bold"
+                                style={{
+                                    textShadow: '0 0 8px #01FF00',
+                                }}
+                            >
                                 Hackathon Idea
                             </span>
+
                         </motion.h1>
 
                         <motion.p

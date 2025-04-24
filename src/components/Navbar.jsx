@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
 import Logo from '../assets/Logos/Logo-Green-Darkmode.png';
-import { FiFolder, FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX } from 'react-icons/fi';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Navbar = () => {
     const { user, logout } = useFirebase();
@@ -21,55 +22,60 @@ const Navbar = () => {
     return (
         <nav className="bg-black/90 backdrop-blur-md border-b border-[#01FF00]/20 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-14 sm:h-16">
+                <div className="flex justify-between items-center h-16">
+                    {/* Logo */}
                     <Link to="/" className="flex items-center">
-                        <img
-                            src={Logo}
-                            alt="HackYours Logo"
-                            className="h-8 sm:h-10 mr-2 transition-all duration-300"
-                        />
+                        <img src={Logo} alt="HackYours Logo" className="h-10 mr-2 transition-all duration-300" />
                         <span className="text-2xl font-bold text-[#01FF00] hidden sm:inline">HackYours</span>
                     </Link>
 
-                    <div className="hidden sm:flex items-center space-x-4">
+                    {/* Desktop Nav */}
+                    <div className="hidden lg:flex items-center space-x-6">
                         {user ? (
                             <>
-                                <Link
-                                    to="/ideaGenerator"
-                                    className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300 hover:scale-105"
-                                >
-                                    Generate Ideas
-                                </Link>
-                                <Link
-                                    to="/pitchGenerator"
-                                    className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300 hover:scale-105"
-                                >
-                                    Generate Pitch
-                                </Link>
-                                <Link
-                                    to="/my-ideas"
-                                    className="text-[#01FF00] hover:text-[#01FF00]/80 transition-all duration-300 hover:scale-105"
-                                >
-                                    My Ideas
-                                </Link>
-                                <button
+                                <motion.div whileHover={{ scale: 1.1 }}>
+                                    <Link
+                                        to="/ideaGenerator"
+                                        className="text-lg font-semibold text-[#01FF00] hover:text-white transition-all duration-300"
+                                    >
+                                        Generate Ideas
+                                    </Link>
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.1 }}>
+                                    <Link
+                                        to="/pitchGenerator"
+                                        className="text-lg font-semibold text-[#01FF00] hover:text-white transition-all duration-300"
+                                    >
+                                        Generate Pitch
+                                    </Link>
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.1 }}>
+                                    <Link
+                                        to="/my-ideas"
+                                        className="text-lg font-semibold text-[#01FF00] hover:text-white transition-all duration-300"
+                                    >
+                                        My Ideas
+                                    </Link>
+                                </motion.div>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
                                     onClick={handleLogout}
-                                    className="px-4 py-2 text-[#01FF00] border-2 border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all cursor-pointer duration-300 hover:scale-105"
+                                    className="ml-4 px-4 py-2 border-2 border-[#01FF00] text-[#01FF00] rounded-lg hover:bg-[#01FF00]/40 cursor-pointer hover:text-white transition-all"
                                 >
                                     Logout
-                                </button>
+                                </motion.button>
                             </>
                         ) : (
                             <>
                                 <Link
                                     to="/login"
-                                    className="px-4 py-2 text-[#01FF00] border-2 border-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 hover:scale-105"
+                                    className="px-4 py-2 border-2 border-[#01FF00] text-[#01FF00] rounded-lg hover:bg-[#01FF00]/10 transition-all duration-300 hover:scale-105"
                                 >
                                     Login
                                 </Link>
                                 <Link
                                     to="/signup"
-                                    className="px-4 py-2 bg-[#01FF00] text-black font-medium rounded-lg hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#01FF00]/20"
+                                    className="px-4 py-2 bg-[#01FF00] text-black font-semibold rounded-lg hover:opacity-90 transition-all duration-300 hover:scale-105"
                                 >
                                     Sign Up
                                 </Link>
@@ -77,63 +83,68 @@ const Navbar = () => {
                         )}
                     </div>
 
+                    {/* Mobile Icon */}
                     {user && (
-                        <button
-                            className="sm:hidden text-[#01FF00] text-2xl focus:outline-none transition-all duration-500"
+                        <motion.button
+                            className="lg:hidden cursor-pointer text-[#01FF00] text-2xl"
                             onClick={toggleMobileMenu}
+                            initial={{ rotate: 0 }}
+                            animate={{ rotate: mobileMenuOpen ? 45 : 0 }}
+                            transition={{ duration: 0.3 }}
                         >
-                            {mobileMenuOpen ? 
-                                <FiX className="transform rotate-90 transition-transform duration-500" /> : 
-                                <FiMenu className="transform transition-transform duration-500 hover:rotate-180" />
-                            }
-                        </button>
+                            {mobileMenuOpen ? <FiX /> : <FiMenu />}
+                        </motion.button>
                     )}
                 </div>
             </div>
 
-            {user && (
-                <div 
-                    className={`sm:hidden overflow-hidden transition-all duration-500 ease-in-out ${
-                        mobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
-                    }`}
-                >
-                    <div className="bg-black border-t border-[#01FF00]/20 px-4 py-4 space-y-3 shadow-md">
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {mobileMenuOpen && user && (
+                    <motion.div
+                        key="mobileMenu"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                        className="lg:hidden px-4 pt-4 pb-6 space-y-5 bg-black border-t border-[#01FF00]/20 shadow-lg z-40"
+                    >
                         <Link
                             to="/ideaGenerator"
-                            onClick={toggleMobileMenu}
-                            className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 hover:translate-x-2"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block w-full text-center text-2xl font-semibold text-[#01FF00] py-2 rounded-lg border border-[#01FF00]/20 bg-[#01FF00]/5 hover:bg-[#01FF00]/10 hover:shadow-[0_0_10px_#01FF00] transition-all"
                         >
                             Generate Ideas
                         </Link>
 
                         <Link
                             to="/pitchGenerator"
-                            onClick={toggleMobileMenu}
-                            className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 hover:translate-x-2"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block w-full text-center text-2xl font-semibold text-[#01FF00] py-2 rounded-lg border border-[#01FF00]/20 bg-[#01FF00]/5 hover:bg-[#01FF00]/10 hover:shadow-[0_0_10px_#01FF00] transition-all"
                         >
                             Generate Pitch
                         </Link>
 
                         <Link
                             to="/my-ideas"
-                            onClick={toggleMobileMenu}
-                            className="block w-full px-4 py-2 rounded-md text-[#01FF00] bg-[#01FF00]/5 border border-[#01FF00]/10 hover:bg-[#01FF00]/10 hover:border-[#01FF00]/20 transition-all duration-200 hover:translate-x-2"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block w-full text-center text-2xl font-semibold text-[#01FF00] py-2 rounded-lg border border-[#01FF00]/20 bg-[#01FF00]/5 hover:bg-[#01FF00]/10 hover:shadow-[0_0_10px_#01FF00] transition-all"
                         >
                             My Ideas
                         </Link>
 
                         <button
                             onClick={() => {
-                                toggleMobileMenu();
                                 handleLogout();
+                                setMobileMenuOpen(false);
                             }}
-                            className="w-full text-left px-4 py-2 rounded-md border border-[#01FF00]/30 text-[#01FF00] bg-[#01FF00]/5 hover:bg-[#01FF00]/10 transition-all duration-200 hover:translate-x-2"
+                            className="w-full text-center text-xl font-semibold text-[#01FF00] py-2 rounded-lg border border-[#01FF00]/30 bg-[#01FF00]/10 hover:bg-[#01FF00]/20 transition-all  hover:shadow-[0_0_10px_#01FF00]"
                         >
                             Logout
                         </button>
-                    </div>
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 };
