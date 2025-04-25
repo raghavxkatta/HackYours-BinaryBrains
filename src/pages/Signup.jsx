@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-
+import { FcGoogle } from 'react-icons/fc';
 const Signup = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -10,13 +10,21 @@ const Signup = () => {
         password: '',
         confirmPassword: ''
     });
+    const {
+        loginWithEmailAndPassword,
+        loginWithGoogle,
+        signupUserWithEmailAndPassword,
+        putData,
+        user
+    } = useFirebase();
+    
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { signupUserWithEmailAndPassword, putData, user } = useFirebase();
+  
 
     useEffect(() => {
         if (user) {
@@ -54,6 +62,17 @@ const Signup = () => {
             } else {
                 setError('Failed to create account. Please try again.');
             }
+        }
+    };
+    const handleGoogleLogin = async () => {
+        setError('');
+        try {
+            const user = await loginWithGoogle();
+            console.log("Google login successful:", user);
+            navigate('/', { replace: true });
+        } catch (err) {
+            console.error("Google login failed:", err);
+            setError('Google login failed. Please try again.');
         }
     };
 
@@ -121,6 +140,8 @@ const Signup = () => {
                                 className="appearance-none rounded-lg relative block w-full px-3 py-2 pr-10 border-2 border-[#01FF00]/40 bg-black text-white placeholder-[#01FF00]/50 focus:outline-none focus:border-[#01FF00]"
                                 placeholder="Password"
                             />
+                           
+
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(prev => !prev)}
@@ -164,13 +185,18 @@ const Signup = () => {
                         </button>
                     </div>
 
-                    <div className="text-center text-sm text-white/60">
-                        By signing up, you agree to our{' '}
-                        <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80 cursor-pointer">Terms</a>
-                        {' '}and{' '}
-                        <a href="#" className="text-[#01FF00] hover:text-[#01FF00]/80 cursor-pointer">Privacy Policy</a>
-                    </div>
                 </form>
+                <div className="text-center mt-4">
+                    <p className="text-white/60 mb-2">or</p>
+                    <button
+                        onClick={handleGoogleLogin}
+                        type="button"
+                        className="group relative w-full flex justify-center items-center py-3 px-4 border-2 border-[#01FF00]/40 rounded-lg text-[#01FF00] hover:bg-[#01FF00]/10 focus:outline-none transition-all duration-300 hover:shadow-md hover:shadow-[#01FF00]/30 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    >
+                        <FcGoogle className="mr-2 text-xl" />
+                        Sign up with Google
+                    </button>
+                </div>
             </div>
         </div>
     );

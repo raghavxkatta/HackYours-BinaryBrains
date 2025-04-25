@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { FcGoogle } from 'react-icons/fc'; // ✅ Google icon
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -9,9 +10,10 @@ const Login = () => {
         password: ''
     });
     const [error, setError] = useState('');
-    const [showPassword, setShowPassword] = useState(false); // 👁️ New state
+    const [showPassword, setShowPassword] = useState(false);
+
     const navigate = useNavigate();
-    const { loginWithEmailAndPassword, user } = useFirebase();
+    const { loginWithEmailAndPassword, loginWithGoogle, user } = useFirebase(); // ✅ include loginWithGoogle
 
     useEffect(() => {
         if (user) {
@@ -34,6 +36,19 @@ const Login = () => {
             await loginWithEmailAndPassword(formData.email, formData.password);
         } catch (err) {
             setError('Invalid email or password');
+        }
+    };
+
+    // ✅ Handle Google Sign-In
+    const handleGoogleLogin = async () => {
+        setError('');
+        try {
+            const user = await loginWithGoogle();
+            console.log("Logged in with Google:", user);
+            navigate('/', { replace: true });
+        } catch (err) {
+            console.error("Google login failed:", err);
+            setError('Google login failed. Please try again.');
         }
     };
 
@@ -129,6 +144,19 @@ const Login = () => {
                         </button>
                     </div>
                 </form>
+
+                {/* ✅ Google Login Button */}
+                <div className="text-center mt-4">
+                    <p className="text-white/60 mb-2">or</p>
+                    <button
+                        onClick={handleGoogleLogin}
+                        type="button"
+                        className="group relative w-full flex justify-center items-center py-3 px-4 border-2 border-[#01FF00]/40 rounded-lg text-[#01FF00] hover:bg-[#01FF00]/10 focus:outline-none transition-all duration-300 hover:shadow-md hover:shadow-[#01FF00]/30 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    >
+                        <FcGoogle className="mr-2 text-xl" />
+                        Sign in with Google
+                    </button>
+                </div>
             </div>
         </div>
     );
