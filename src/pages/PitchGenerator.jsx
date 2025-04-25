@@ -3,8 +3,10 @@ import { generateFromGemini } from '../utils/generatefromGemini';
 import { FiCopy, FiCheck, FiSave } from 'react-icons/fi';
 import Toast from '../components/Toast';
 import { saveIdea } from '../services/storageService';
+import { useFirebase } from '../context/firebase';
 
 const PitchGenerator = () => {
+    const { user } = useFirebase();
     const [pitch, setPitch] = useState('');
     const [loading, setLoading] = useState(false);
     const [duration, setDuration] = useState('1 Minute');
@@ -53,7 +55,12 @@ Requirements:
 
     const handleSavePitch = () => {
         try {
-            saveIdea(idea, pitch);
+            if (!user || !user.uid) {
+                setToast({ message: 'User not authenticated', type: 'error' });
+                return;
+            }
+    
+            saveIdea(user.uid, idea, pitch); // Pass uid correctly
             setIsSaved(true);
             setToast({ message: 'Pitch saved successfully! 🎉', type: 'success' });
             setTimeout(() => setIsSaved(false), 2000);
@@ -62,6 +69,7 @@ Requirements:
             setToast({ message: 'Failed to save pitch', type: 'error' });
         }
     };
+    
 
     const handleCopyPitch = () => {
         navigator.clipboard.writeText(pitch);
