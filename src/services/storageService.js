@@ -1,6 +1,6 @@
-export const saveIdea = (idea, pitch = null) => {
+export const saveIdea = (uid, idea, pitch = null) => {
     try {
-        const savedIdeas = JSON.parse(localStorage.getItem('savedIdeas') || '[]');
+        const savedIdeas = JSON.parse(localStorage.getItem(`savedIdeas_${uid}`) || '[]');
         const newIdea = {
             id: Date.now().toString(),
             idea,
@@ -8,7 +8,7 @@ export const saveIdea = (idea, pitch = null) => {
             createdAt: new Date().toISOString()
         };
         savedIdeas.push(newIdea);
-        localStorage.setItem('savedIdeas', JSON.stringify(savedIdeas));
+        localStorage.setItem(`savedIdeas_${uid}`, JSON.stringify(savedIdeas));
         return newIdea.id;
     } catch (error) {
         console.error('Error saving idea:', error);
@@ -16,20 +16,20 @@ export const saveIdea = (idea, pitch = null) => {
     }
 };
 
-export const getSavedIdeas = () => {
+export const getSavedIdeas = (uid) => {
     try {
-        return JSON.parse(localStorage.getItem('savedIdeas') || '[]');
+        return JSON.parse(localStorage.getItem(`savedIdeas_${uid}`) || '[]');
     } catch (error) {
         console.error('Error getting ideas:', error);
         return [];
     }
 };
 
-export const deleteIdea = (ideaId) => {
+export const deleteIdea = (uid, ideaId) => {
     try {
-        const savedIdeas = JSON.parse(localStorage.getItem('savedIdeas') || '[]');
+        const savedIdeas = JSON.parse(localStorage.getItem(`savedIdeas_${uid}`) || '[]');
         const filteredIdeas = savedIdeas.filter(idea => idea.id !== ideaId);
-        localStorage.setItem('savedIdeas', JSON.stringify(filteredIdeas));
+        localStorage.setItem(`savedIdeas_${uid}`, JSON.stringify(filteredIdeas));
         return true;
     } catch (error) {
         console.error('Error deleting idea:', error);
@@ -37,13 +37,13 @@ export const deleteIdea = (ideaId) => {
     }
 };
 
-export const updateIdeaWithPitch = (ideaId, pitch) => {
+export const updateIdeaWithPitch = (uid, ideaId, pitch) => {
     try {
-        const savedIdeas = JSON.parse(localStorage.getItem('savedIdeas') || '[]');
+        const savedIdeas = JSON.parse(localStorage.getItem(`savedIdeas_${uid}`) || '[]');
         const updatedIdeas = savedIdeas.map(idea => 
             idea.id === ideaId ? { ...idea, pitch } : idea
         );
-        localStorage.setItem('savedIdeas', JSON.stringify(updatedIdeas));
+        localStorage.setItem(`savedIdeas_${uid}`, JSON.stringify(updatedIdeas));
         return true;
     } catch (error) {
         console.error('Error updating idea with pitch:', error);

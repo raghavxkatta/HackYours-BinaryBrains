@@ -2,21 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { FiChevronDown, FiChevronUp, FiTrash2, FiCopy, FiCheck } from 'react-icons/fi';
 import { getSavedIdeas, deleteIdea } from '../services/storageService';
 import Toast from '../components/Toast';
+import { useFirebase } from '../context/firebase';
+
 
 const MyIdeas = () => {
+    const { user } = useFirebase();
+
     const [savedIdeas, setSavedIdeas] = useState([]);
     const [openIdea, setOpenIdea] = useState(null);
     const [toast, setToast] = useState(null);
     const [copiedId, setCopiedId] = useState(null);
 
     useEffect(() => {
-        const ideas = getSavedIdeas();
-        setSavedIdeas(ideas);
-    }, []);
+        if (user) {
+            const ideas = getSavedIdeas(user.uid);
+            setSavedIdeas(ideas);
+        }
+    }, [user]);
 
     const handleDeleteIdea = (ideaId) => {
         try {
-            deleteIdea(ideaId);
+            deleteIdea(user.uid, ideaId);
             setSavedIdeas(ideas => ideas.filter(idea => idea.id !== ideaId));
             setToast({ message: 'Idea deleted successfully', type: 'success' });
         } catch (error) {

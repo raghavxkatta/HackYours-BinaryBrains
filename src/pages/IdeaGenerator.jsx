@@ -11,10 +11,12 @@ import Toast from '../components/Toast';
 import { motion } from "framer-motion";
 import { FiArrowDown } from "react-icons/fi";
 import PromptGenerator from "../components/PromptGenerator"; // add this
+import { useFirebase } from '../context/firebase'; // ✅ Add this line
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 const IdeaGenerator = () => {
+    const { user } = useFirebase();
     const pitchGeneratorRef = useRef(null);
     const [isPitchVisible, setIsPitchVisible] = useState(false);
     const [input, setInput] = useState({
@@ -222,7 +224,11 @@ Format your response EXACTLY as follows:
 
     const handleSaveIdea = () => {
         try {
-            saveIdea(idea);
+            if (!user || !user.uid) {
+                setToast({ message: 'User not authenticated', type: 'error' });
+                return;
+            }
+            saveIdea(user.uid, idea);
             setIsSaved(true);
             setToast({ message: 'Idea saved successfully! 🎉', type: 'success' });
             setTimeout(() => setIsSaved(false), 2000);
@@ -231,6 +237,7 @@ Format your response EXACTLY as follows:
             setToast({ message: 'Failed to save idea', type: 'error' });
         }
     };
+    
 
     const handleCopyIdea = () => {
         navigator.clipboard.writeText(idea);
