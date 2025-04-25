@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/firebase';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc'; // ✅ Google icon
+import Toast from '../components/Toast';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const Login = () => {
     });
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [toast, setToast] = useState(null);
 
     const navigate = useNavigate();
     const { loginWithEmailAndPassword, loginWithGoogle, user } = useFirebase(); // ✅ include loginWithGoogle
@@ -34,6 +36,7 @@ const Login = () => {
 
         try {
             await loginWithEmailAndPassword(formData.email, formData.password);
+            setToast({ message: `Welcome back! 👋`, type: 'success' });
         } catch (err) {
             setError('Invalid email or password');
         }
@@ -43,9 +46,8 @@ const Login = () => {
     const handleGoogleLogin = async () => {
         setError('');
         try {
-            const user = await loginWithGoogle();
-            console.log("Logged in with Google:", user);
-            navigate('/', { replace: true });
+            await loginWithGoogle();
+            setToast({ message: `Welcome back! 👋`, type: 'success' });
         } catch (err) {
             console.error("Google login failed:", err);
             setError('Google login failed. Please try again.');
@@ -54,6 +56,7 @@ const Login = () => {
 
     return (
         <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <h2 className="text-center text-3xl font-bold text-[#01FF00]">
