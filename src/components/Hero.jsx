@@ -39,7 +39,10 @@ const Hero = () => {
                             transition={{ duration: 0.8, delay: 0.4 }}
                             className="mt-6 text-lg text-white/80"
                         >
-                            Transform your experience with AI-powered ideas. Get detailed suggestions tailored according to your interest.
+                            HackYours is an AI-powered hackathon idea generator built for developers. Whether you're prepping for a student hackathon, company sprint, or solo project, HackYours delivers theme-based prompts to spark original, winning ideas — instantly.
+
+
+
                         </motion.p>
 
                         <motion.div
