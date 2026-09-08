@@ -132,7 +132,14 @@ const IdeaGenerator = () => {
         setIdea("");
 
         try {
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const model = genAI.getGenerativeModel({
+                model: "gemini-3.6-flash",
+                generationConfig: {
+                    thinkingConfig: {
+                        thinkingBudget: 0  // disables extended thinking
+                    }
+                }
+            });
 
             const creativeTwists = [
                 "Merge two totally unrelated domains like Fashion + Cybersecurity or Music + Blockchain.",
@@ -237,7 +244,7 @@ Format your response EXACTLY as follows:
             setToast({ message: 'Failed to save idea', type: 'error' });
         }
     };
-    
+
 
     const handleCopyIdea = () => {
         navigator.clipboard.writeText(idea);
@@ -437,8 +444,8 @@ Format your response EXACTLY as follows:
                                         <button
                                             onClick={handleSaveIdea}
                                             className={`px-4 py-2 text-sm border rounded-lg transition-all duration-300 cursor-pointer ${isSaved
-                                                    ? 'bg-[#01FF00] text-black border-transparent'
-                                                    : 'text-[#01FF00] border-[#01FF00] hover:bg-[#01FF00]/10'
+                                                ? 'bg-[#01FF00] text-black border-transparent'
+                                                : 'text-[#01FF00] border-[#01FF00] hover:bg-[#01FF00]/10'
                                                 }`}
                                         >
                                             {isSaved ? '✓ Saved' : 'Save Idea'}
