@@ -2,12 +2,12 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY, {
-  apiUrl: "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+  apiUrl: "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent",
 });
 
 export const generateFromGemini = async (prompt) => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const result = await model.generateContent({
       contents: [{ parts: [{ text: prompt }] }],
