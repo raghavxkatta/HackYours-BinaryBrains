@@ -121,42 +121,31 @@ const IdeaGenerator = () => {
         return () => observer.disconnect();
     }, [idea]);
 
-    const generateIdea = async () => {
-        if (!input.theme || !input.techStack || !input.teamSize) {
-            setError("Please fill in all required fields");
-            return;
-        }
+const generateIdea = async () => {
+    if (!input.theme || !input.techStack || !input.teamSize) {
+        setError("Please fill in all required fields");
+        return;
+    }
 
-        setLoading(true);
-        setError("");
-        setIdea("");
+    setLoading(true);
+    setError("");
+    setIdea("");
 
-        try {
-            const model = genAI.getGenerativeModel({
-                model: "gemini-3.6-flash",
-                generationConfig: {
-                    thinkingConfig: {
-                        thinkingBudget: 0  // disables extended thinking
-                    }
-                }
-            });
+    const creativeTwists = [
+        "Merge two totally unrelated domains like Fashion + Cybersecurity or Music + Blockchain.",
+        "Imagine the project will be judged by aliens. Make it weirdly impressive.",
+        "Make it impossible to build unless you break some convention.",
+        "Include something only a pirate, a monk, or a time traveler would use.",
+        "Make it solve a global issue in an unusual way, like solving water scarcity using NFTs.",
+        "The app should interact with nature in some physical or digital way.",
+        "Use retro or obsolete tech in a modern way (e.g., Floppy disks + AI).",
+        "Use a narrative-driven experience like a quest or story to complete tasks.",
+        "Blend AR with non-digital human traditions or folklore.",
+        "Design it for people in extreme or rare environments (e.g., underwater cities or Mars)."
+    ];
+    const twist = creativeTwists[Math.floor(Math.random() * creativeTwists.length)];
 
-            const creativeTwists = [
-                "Merge two totally unrelated domains like Fashion + Cybersecurity or Music + Blockchain.",
-                "Imagine the project will be judged by aliens. Make it weirdly impressive.",
-                "Make it impossible to build unless you break some convention.",
-                "Include something only a pirate, a monk, or a time traveler would use.",
-                "Make it solve a global issue in an unusual way, like solving water scarcity using NFTs.",
-                "The app should interact with nature in some physical or digital way.",
-                "Use retro or obsolete tech in a modern way (e.g., Floppy disks + AI).",
-                "Use a narrative-driven experience like a quest or story to complete tasks.",
-                "Blend AR with non-digital human traditions or folklore.",
-                "Design it for people in extreme or rare environments (e.g., underwater cities or Mars)."
-            ];
-
-            const twist = creativeTwists[Math.floor(Math.random() * creativeTwists.length)];
-
-            const prompt = `You are an AI idea strategist. Generate a **creative, unique, and never-before-seen** hackathon project idea using the following specifications.
+    const prompt = `You are an AI idea strategist. Generate a **creative, unique, and never-before-seen** hackathon project idea using the following specifications.
 
 Make it stand out from typical projects like chat apps, weather dashboards, and fitness trackers. Avoid all clichés.
 
@@ -209,25 +198,21 @@ Format your response EXACTLY as follows:
 - [Point 2]
 - [Point 3]`;
 
-            const result = await model.generateContent({
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                    temperature: 1.2,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 2048,
-                }
-            });
+    try {
+        const model = genAI.getGenerativeModel({
+            model: "gemini-3.5-flash-lite"
+        });
 
-            const response = await result.response;
-            setIdea(response.text());
-        } catch (err) {
-            console.error("Gemini API Error:", err);
-            setError(err.message || "Failed to generate idea. Please try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        setIdea(response.text());
+    } catch (err) {
+        console.error("Gemini API Error:", err);
+        setError(err.message || "Failed to generate idea. Please try again.");
+    } finally {
+        setLoading(false);
+    }
+};
 
     const handleSaveIdea = () => {
         try {
